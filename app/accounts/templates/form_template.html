@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row" style="margin-top: 50px;">
+    <div class="seven columns centered">
+        <div class="roundedbox">
+            <h1>{% block form_title %}{% endblock %}</h1>
+            {% block form %}
+            <form method="post">
+                {{ form }}
+                <input type="submit" class="nice radius large blue button" value="Next »" />
+            </form>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

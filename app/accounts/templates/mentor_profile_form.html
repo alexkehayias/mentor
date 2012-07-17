@@ -1,0 +1,24 @@
+{% extends "form_template.html" %}
+
+{% block form_title %}Mentor Profile {% endblock %}
+
+{% block form %}
+<p>We grabbed this information from your existing P2PU profile</p>
+<form method="post" action="{% url mentor_profile_form %}">
+    {% csrf_token %}
+    <p>{{ form }}</p>
+    <input type="submit" class="nice radius blue button" value="Save and Next »" />
+</form>
+{% endblock %}
+
+{% block scripts %}
+<link rel="stylesheet" href="/static/stylesheets/select2.css"></script>
+<script type="text/javascript" src="/static/javascripts/select2.js"></script> 
+<script>
+    $(document).ready(function(){ 
+        $("#id_skills").select2({
+            placeholder: "Select a skill"
+        });
+    });
+</script>
+{% endblock %}

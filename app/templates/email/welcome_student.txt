@@ -1,0 +1,9 @@
+Hey {{mentorship.from_user.first_name}},
+
+Welcome to the P2PU mentorship program. We'll notify you as soon as you are selected by a mentor. 
+
+How can I speed up the process?
+Mentors are in high demand. Get supporters by sharing this link: {{mentorship.share_url}}. The more supporters you gain the more likely you are to be chosen by a mentor. In the meantime continue learning. 
+
+Thanks,
+The P2PU Mentorship Team

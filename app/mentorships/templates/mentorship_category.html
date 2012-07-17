@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content_title %}
+Mentorship Requests
+{% if skill %} - {{skill.name}}{% endif %}
+{% endblock %}
+{% block content %}
+{% block instructions %}
+<p>Select a mentorship request to connect with a student.
+Click "Learn More" to view the <br/>full mentorship application.
+Click "Connect" to start mentoring a student!
+</p>
+{% endblock %}
+<div id="connectModal" class="reveal-modal">
+    <h1>Headline here</h1>
+    <p>Text about what we will do once we connect</p>
+    <a class="nice radius large blue button accept">Connect</a>
+    <a class="close-reveal-modal">&#215;</a>
+</div>
+<div class="row">
+    <div class="three columns">
+        {% block sidebar %}
+        <dl class="nice vertical tabs">
+            <dd><a href="{% url mentorship_category %}">Latest</a></dd>            
+            {% for skill in skills %}
+            <dd><a href="{% url mentorship_category_skill skill.id %}">{{skill.name}}</a></dd>
+            {% endfor %}
+        </dl>
+        {% endblock %}
+    </div>
+    <div class="nine columns">
+        {% block detail_content %}
+        {% for mentorship in mentorships %}
+        <div class="snippet">
+            <a 
+                class="nice radius small blue button connect" 
+                style="float:right;"
+                data-user-id="{{mentorship.from_user.p2puprofile.p2pu_id}}"
+                data-skill-id="{{mentorship.learning.id}}"
+                data-mentorship-request-id="{{mentorship.id}}">
+                Connect
+            </a>
+            <a 
+                href="{% url mentorship_detail mentorship.id %}" 
+                class="nice radius small blue button" 
+                style="float: right; margin-right: 10px;">
+                Lean more »
+            </a>
+            <h2>
+                {% with mentorship.from_user as user %}
+                <img src="{{user.p2puprofile.picture}}" class="profilepicture"/>                
+                {{user.first_name}}
+                {{user.last_name}}
+                wants to learn 
+                {{mentorship.learning.name}}
+                {% endwith %}
+            </h2>
+            <p>{{mentorship.why|truncatewords:"30"}}</p>
+            {% if mentorship.sponsor_set.count > 0 %}
+                <img src="/static/images/supporters.png" style="margin-right: 10px;" />
+                <b>{{mentorship.sponsor_set.count}} supporters</b>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="/static/javascripts/jquery.reveal.js"></script>
+<script type="text/javascript" src="/static/javascripts/mentorship.js"></script>
+{% endblock %}

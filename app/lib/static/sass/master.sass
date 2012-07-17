@@ -1,0 +1,447 @@
+@import globals.sass
+@import ie.sass
+@import compass/layout
+
+@import typography.sass
+@import ui.sass
+@import forms.sass
+@import grid.sass
+@import mobile.sass
+@import orbit.sass
+@import reveal.sass
+@import compass/css3/border-radius
+@import compass/css3/opacity
+@import compass/css3/box-shadow
+
+//+sticky-footer(100px, "#layout", "#layout_footer", "#footer")
+
+/* Color Palette */
+$primary-color: #333333
+$secondary-color: #52C3B4
+$highlight-color: #E77627
+$secondary-highlight: #EE204D
+$background-color: #23232C
+$default-border-radius: 10px
+
+/* Font Styles */
+h1
+  color: $primary-color
+  font-family: helvetica, arial, sans-serif
+  font-size: 42px
+  font-weight: 100
+  line-height: 50px
+  text-transform: capitalize
+  margin: 0 0 30px 0
+  text-shadow: 0 1px 1px #fff
+  word-wrap: break-word
+  &.homepage
+    font-size: 64px
+    color: #666666
+
+h2 
+  color: $primary-color
+  font-family: helvetica, arial, sans-serif
+  font-size: 24px
+  line-height: 36px
+  font-weight: bold
+  word-wrap: break-word
+
+h3
+  color: $primary-color
+  font-family: helvetica, arial, sans-serif
+  font-weight: bold
+  font-size: 21px  
+  line-height: 22px
+  margin: 10px 0 10px 0
+  word-wrap: break-word
+
+h4
+  color: $primary-color
+  font-family: "myriad-pro", helvetica, arial, sans-serif
+
+small 
+  font-size: 12px
+  font-weight: 500
+  font-family: "myriad-pro", helvetica, sans-serif
+
+body 
+  color: #666666
+  margin: 0
+  font-family: helvetica, arial, serif
+  font-size: 16px
+  font-weight: 100
+  line-height: 28px
+  word-wrap: break-word
+
+p
+  line-height: 28px
+
+img
+  vertical-align: middle
+  &.background
+    z-index: -1
+    /* Set rules to fill background */
+    min-height: 100%
+    min-width: 1024px
+
+    /* Set up proportionate scaling */
+    width: 100%
+    height: auto
+
+    /* Set up positioning */
+    position: fixed
+    top: 0
+    left: 0
+
+pre
+  background: #eeeeee
+  line-height: 21px
+  padding: 10px
+  font-size: 14px
+  font-family: monaco, menlo, courier
+
+a
+  word-wrap: break-word
+
+/* Forms */
+form    
+
+  label
+    font-size: 18px
+    font-weight: bold
+    margin-top: 25px
+
+  textarea
+    width: 95%
+    height: 80px
+    font-size: 16px
+    line-height: 28px
+    padding: 8px
+    margin: 5px 0 5px 0
+    border: 1px solid #dfdfdf
+
+input
+  font-size: 18px
+  padding: 8px
+  margin: 5px 0 5px 0
+  font-family: inherit
+
+select
+  width: 99%
+
+.errorlist
+  li
+    margin-left: 0
+    list-style-type: none
+    display: block
+    padding: 6px 20px
+    font-weight: bold
+    font-size: 13px
+    background: #eee
+    border: 1px solid rgba(0, 0, 0, 0.1)
+    margin-bottom: 12px
+    border-radius: 3px
+    -webkit-border-radius: 3px
+    -moz-border-radius: 3px
+    text-shadow: 0 1px rgba(255, 255, 255, 0.9)
+    position: relative
+    background-color: #c00000
+    color: #fff
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.3)
+
+.helptext
+  font-size: 12px
+  padding-left: 0
+  margin-left: 0
+
+tbody
+  font-family: "myriad-pro", helvetica, arial, sans-serif
+  p
+    margin: 0
+  a
+    font-size: 14px
+    font-height: 18px
+    font-weight: bold
+    margin: 0
+
+/* Logo, tab navigation and user signout */
+
+.navigation-container
+  //border-bottom: 1px solid #eeeeee
+
+.navigation
+  &.homepage
+    border-bottom: none 
+    -moz-box-shadow: none
+    -webkit-box-shadow: none
+    -o-box-shadow: none
+    box-shadow: none
+  .myaccount 
+    span
+      color: lighten(black, 85%)
+      text-shadow: -1px -1px black
+    &.hover
+      color: lighten(black, 85%)
+      text-shadow: -1px -1px black
+      text-decoration: underline
+  .header
+    h1
+      color: $primary-color
+      position: relative
+      display: inline
+      top: 0
+      left: 0
+      z-index: 1
+      height: 1px
+      margin: 0px 0
+      margin-right: 40px
+      font-family: helvetica, sans-serif
+      font-weight: 700
+      font-size: 24px
+      font-height: 24px
+      text-shadow: none
+      a
+        color: inherit
+        span
+          display: none
+          margin: 0
+        img
+          margin: 10px 0
+
+    .navitem
+      position: relative
+      color: $primary-color
+      text-shadow: -1px -1px black
+      display: inline-block
+      font-weight: bold
+      opacity: 0.9      
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)"
+      filter: alpha(opacity=5=90)
+      -moz-opacity: 0.9
+      -khtml-opacity: 0.9
+      padding: 5px 8px
+      font-size: 11px
+      font-family: "myriad-pro", helvetica
+      text-transform: uppercase
+      text-shadow: -1px 1px solid white
+      margin-top: 7px
+      cursor: pointer
+      &:hover
+        border-radius: 5px
+        -webkit-border-radius: 5px
+        -moz-border-radius: 5px
+        background: #3A3A3A
+        opacity: 0.8      
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"
+        filter: alpha(opacity=5=80)
+        -moz-opacity: 0.8
+        -khtml-opacity: 0.8
+        -moz-box-shadow: inset 1px 1px 4px 3px #2A2A2A 
+        -webkit-box-shadow: inset 1px 1px 4px 3px #2A2A2A
+        box-shadow: inset 1px 1px 4px 3px #2A2A2A
+        background: lighten(black, 20%)
+        cursor: pointer
+
+.log
+  font-size: 14px
+  text-decoration: underline
+  float: right
+  font-family: "myriad pro", helvetica, arial
+  margin-top: 10px
+  &.homepage
+    margin-top: 0
+
+#footer
+  margin-top: 20px
+
+.roundedbox
+  margin: 0
+  z-index: 1
+  border: 1px solid #d0cdc3
+  background: #FFFFFF
+  padding: 40px
+  -webkit-border-radius: 5px
+  -moz-border-radius: 5px
+  border-radius: 5px
+  b
+    font-family: helvetica, "myriad-pro", sans-serif
+  &.small
+    padding: 30px
+   
+//Ribbons via http://www.sitepoint.com/pure-css3-ribbons/
+.ribbon
+  position: absolute
+  min-width: 24%
+  z-index: 2
+  white-space: nowrap
+  h1
+    font-family: "myriad-pro-condensed", helvetica, sans-serif
+    width: auto
+    font-size: 28px
+    font-weight: bold
+    text-align: left
+    line-height: 54px
+    position: relative
+    color: #EEEEEE
+    background: #666666
+    clear: both
+    padding: 0px 20px 0 20px
+    margin: 20px 0px 10px -11px     
+    text-shadow: 0 -1px #1A1A1A, 0 1px gray
+    -moz-box-shadow: 2px 2px 0 #F2F2F2
+    -webkit-box-shadow: 2px 2px 0 #F2F2F2
+    -o-box-shadow: 2px 2px 0 #F2F2F2
+    box-shadow: 2px 2px 0 #F2F2F2
+
+    &:before
+      z-index: 1
+      content: ' '
+      position: absolute
+      width: 0
+      height: 0
+      left: 0px
+      top: 100%
+      border-width: 5px 5px
+      border-style: solid
+      border-color: #1A1A1A #1A1A1A transparent transparent
+
+    &:after
+      z-index: 1
+      content: ' '
+      position: absolute
+      width: 1px
+      height: 0
+      left: auto
+      top: 0
+      right: -20px
+      border-width: 27px 15px
+      border-style: solid
+      border-color: #666666 transparent #666666 #666666
+      -moz-box-shadow: 0px 2px 0 #F2F2F2
+      -webkit-box-shadow: 0px 2px 0 #F2F2F2
+      -o-box-shadow: 0px 2px 0 #F2F2F2
+      box-shadow: 0px 2px 0 #F2F2F2
+  &.home
+    min-width: 0
+    right: -10px
+    h1
+      background: #800517
+      font-size: 18px
+      line-height: 32px
+      margin-left: 0px
+      margin-top: 25px
+      text-shadow: 0 -1px #1A1A1A, 0 1px maroon
+      &:after
+        z-index: 1
+        content: ' '
+        position: absolute
+        width: 0
+        height: 0
+        right: 0px
+        top: 100%
+        border-width: 5px 5px
+        border-style: solid
+        border-color: #1A1A1A transparent transparent #1A1A1A
+      &:before
+        z-index: 1
+        content: ''
+        position: absolute
+        width: 1px
+        height: 0
+        left: auto
+        top: 0
+        right: -20px
+        border-width: 0
+        border-style: solid
+        border-color: #666666 transparent #666666 #666666
+        -moz-box-shadow: 0px 2px 0 #F2F2F2
+        -webkit-box-shadow: 0px 2px 0 #F2F2F2
+        -o-box-shadow: 0px 2px 0 #F2F2F2
+        box-shadow: 0px 2px 0 #F2F2F2
+
+.clear 
+  clear: both
+
+/* Over rides for default foundation button colors /*
+.blue.button
+  background-color: $highlight-color
+
+.blue.button:hover
+  background-color: darken($highlight-color, 12%)
+
+.nice
+  &.blue.button
+    border: 1px solid $highlight-color
+
+.nice.tabs.vertical
+  dd 
+    a
+      text-transform: uppercase
+      font-size: 14px
+      font-weight: normal
+      &.active
+        background-color: $highlight-color
+        &:hover
+          background-color: $highlight-color
+      &:hover
+        background-color: lighten($highlight-color, 42%)
+
+.alert-box, span
+  padding-left: 12px
+
+.snippet
+  border: 1px solid #eeeeee
+  margin-bottom: 10px
+  padding: 20px
+  +border-radius(5px)
+
+.tag
+  +border-radius(5px)
+  padding: 5px
+  border: 1px solid #dddddd
+  background: #eeeeee
+  font-size: 12px
+  text-shadow: 1px 1px solid white
+  margin-right: 8px
+  &:hover
+    background: darken(#eeeeee, 10%)
+  a
+    color: $primary-color
+
+.profilepicture
+  background: #EEEEEE 
+  display: inline-block 
+  width: 42px
+  height: 42px
+  +border-radius(5px)
+  &.tiny
+    width: 24px
+    height: 24px
+    padding: 2px
+    margin-right: 5px
+  &.small
+    width: 32px
+    height: 32px
+  &.medium
+    width: 54px
+    height: 54px
+  &.large
+    width: 220px
+    height: 220px
+
+.update
+  background: #eeeeee
+  padding: 12px
+  padding-left: 30px
+  margin-left: -20px
+  border-left: 2px solid gray
+  border-bottom: 1px solid #ffffff 
+  &:before
+    content: " "
+    left: -28px
+    margin-top: 20px
+    position: absolute
+    border: 8px solid $secondary-color
+    +border-radius(100px)
+  small
+    font-weight: normal

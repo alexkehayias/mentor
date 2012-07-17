@@ -1,0 +1,29 @@
+{% extends "form_template.html" %}
+{% block form_title %}Help {{mentorship_request.from_user.first_name}} get a {{mentorship_request.learning.name}} mentor!{% endblock %}
+{% block form %}
+<p>
+P2PU provides free peer to peer mentorship for people that are committed to learning. 
+Show your support for Alex and we'll bump them up the line to get a mentor.
+</p>
+<form method="post">
+    {% csrf_token %}
+    {% if form.errors %}
+    <div class="alert-box error">
+        We need your email address to verify your support.
+        We will never email you without your permission.
+    </div>
+    {% endif %}
+    {% if saved %}<div class="alert-box success">Thanks for your support!</div>{% endif %}    
+    {{form.email}}
+    <input type="submit" class="nice radius large blue button" value="Support {{user.first_name}}" />
+    {{form.receive_email_updates}} I'd like to receive email updates about {{mentorship_request.from_user.first_name}}'s progress<br/>
+    <small>We will never email you without your permission.</small>
+</form>
+{% endblock %}
+{% block fullwidth %}
+<div style="background: #eeeeee; border-top: 1px solid #999999; border-bottom: 1px solid #999999; margin: 50px 0; text-align: center; padding: 20px;">
+    Interested in finding or becoming a mentor? 
+    <a href="{% url home %}" class="nice radius small black button" style="margin-left: 10px;">Learn More »</a>
+</div>
+{% endblock %}
+

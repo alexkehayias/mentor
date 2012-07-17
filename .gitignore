@@ -1,0 +1,8 @@
+venv
+*.pyc
+*.DS_Store
+*.db
+build
+*.sassc
+*.log
+settings_private.py

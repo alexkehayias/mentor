@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+{% endblock %}
+{% block fullwidth %}
+<div class="container">
+    <div class="row" style="background: url('/static/images/homepage-background.jpg') no-repeat;">
+        <div class="nine columns centered">
+            <div align="center" style="padding: 230px 0;"></div>
+            <div class="row" style="margin-bottom: -80px;">
+                <div class="twelve columns">
+                    <div class="row">
+                        <div class="six columns">
+                            <div class="roundedbox small">
+                                <h3 style="display: inline-block;">Student</h3>
+                                <a href="{% url signup "student" %}" class="nice radius blue button" style="margin-left: 10px;">Signup »</a>
+                            </div>
+                        </div>
+                        <div class="six columns">
+                            <div class="roundedbox small">
+                                <h3 style="display: inline-block;">Mentor</h3>
+                                <a href="{% url signup "mentor" %}" class="nice radius blue button" style="margin-left: 10px;">Signup »</a>                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="background: #efefef; padding: 100px 0 50px 0; border-top: 1px solid #cccccc;">
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <img src="/static/images/how-it-works.png" style="margin-top: 40px;" />
+                <div class="row" style="margin-top: 50px;">
+                    <div class="six columns">
+                        <h2><img src="/static/images/bullet.png" />Becoming a student</h2>
+                        <p>Aliquam erat volutpat. Nulla sapien turpis, blandit id consequat iaculis, fringilla id eros. Proin eget dignissim lacus. Donec tempus ipsum.</p>
+                        <a href="{% url signup "mentor" %}" class="nice radius blue button">Signup »</a>
+                    </div>
+                    <div class="six columns">
+                        <h2><img src="/static/images/bullet.png" />Becoming a mentor</h2>
+                        <p>Ut auctor, sem in dignissim commodo, est tellus facilisis dui, tempor iaculis felis tortor at orci. Nullam congue, <br/>quam posuere.</p>
+                        <a href="{% url signup "mentor" %}" class="nice radius blue button">Signup »</a>
+                    </div>
+                </div>
+                <!--
+                <h2 style="margin-top: 50px;">Success Stories</h2>
+                <div class="row">
+                    <div class="four columns">
+                        <h3>Name here</h3>
+                        <p>Sed a aliquet libero. Nulla mattis purus nec velit facilisis.</p>
+                    </div>
+                    <div class="four columns">
+                        <h3>Name here</h3>
+                        <p>Sed a aliquet libero. Nulla mattis purus nec velit facilisis.</p>
+                    </div>
+                    <div class="four columns">
+                        <h3>Name here</h3>
+                        <p>Sed a aliquet libero. Nulla mattis purus nec velit facilisis.</p>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

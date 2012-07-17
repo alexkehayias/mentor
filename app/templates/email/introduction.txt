@@ -1,0 +1,13 @@
+{{mentorship.student.first_name}} meet {{mentorship.mentor.first_name}}, your new mentor to help guide you through learning {{mentorship.skill.name}}. 
+
+{{mentorship.student.first_name}} {{mentorship.student.last_name}}
+Email: {{mentorship.student.email}}
+
+{{mentorship.mentor.first_name}} {{mentorship.mentor.last_name}}
+Email: {{mentorship.mentor.email}}
+
+Next Steps
+Say hello and set up some time to chat. It's up to you to determine how you want to work together. We'll check in on you periodically so you can provide updates about your progress. This is important to establish your mentorship rating and share the overall progress of the mentorship program.
+
+Happy learning,
+The P2PU Mentorship Team

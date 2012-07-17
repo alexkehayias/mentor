@@ -1,0 +1,7 @@
+{% load url_tags %}
+Hey {{user.first_name}},
+
+Welcome to the P2PU Mentorship program. You can browse all the requests for mentorship here: {% server_scheme_and_netloc %}{% url mentorship_category %}. You can browse, select, and start mentoring.
+
+Thanks,
+The P2PU Mentorship Team

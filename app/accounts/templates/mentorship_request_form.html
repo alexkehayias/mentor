@@ -1,0 +1,20 @@
+{% extends "form_template.html" %}
+{% block form_title %}Tell us about yourself{% endblock %}
+{% block form %}
+<form method="post" action="{% url mentor_profile_form %}">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" class="nice radius large blue button" value="Next »" />
+</form>
+{% endblock %}
+{% block scripts %}
+<link rel="stylesheet" href="/static/stylesheets/select2.css"></script>
+<script type="text/javascript" src="/static/javascripts/select2.js"></script> 
+<script>
+    $(document).ready(function(){ 
+        $("#id_learning").select2({
+            placeholder: "Select a skill"
+        });
+    });
+</script>
+{% endblock %}
