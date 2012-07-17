@@ -4,7 +4,7 @@ import json
 with open('/home/dotcloud/environment.json') as f:
     env = json.load(f)
 
-SERVER_SCHEME_AND_NETLOC = 'http://mentorship.p2pu.org'
+SERVER_SCHEME_AND_NETLOC = 'http://mentordev-qu6we2kn.dotcloud.com'
 SERVER_TYPE = 'production'
 
 EMBED_ANALYTICS = True
