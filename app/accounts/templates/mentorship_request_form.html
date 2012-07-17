@@ -1,7 +1,7 @@
 {% extends "form_template.html" %}
 {% block form_title %}Tell us about yourself{% endblock %}
 {% block form %}
-<form method="post" action="{% url mentor_profile_form %}">
+<form method="post" action="{% url mentorship_request_form 'about-me' %}">
     {% csrf_token %}
     {{ form }}
     <input type="submit" class="nice radius large blue button" value="Next »" />

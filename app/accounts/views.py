@@ -1,6 +1,7 @@
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth import login as auth_login, authenticate
 from django.shortcuts import redirect
 
 from accounts.forms import LoginForm, SponsorForm, MentorProfileForm
@@ -16,10 +17,13 @@ def signup(request, user_type):
             first_name = 'Johnny',
             last_name = 'Test',
             email = 'email@email.com')
+    user.set_password('testing')
+    user.save()
     user.send_welcome_email(user_type)
+    authenticated_user = authenticate(username='johnnytest', password='testing')
+    auth_login(request, authenticated_user)
     # TODO scrape profile pages for initial data until we 
     # get a user api from p2pu
-
     if user_type == 'student':
         return redirect('mentorship_request_form', 'about-me')
     return redirect('mentor_profile_form')
