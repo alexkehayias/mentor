@@ -12,8 +12,9 @@ def signup(request, user_type):
     and create their mentorship request'''
     # TODO decode the login cookie
     user, created = User.objects.get_or_create(
-            first_name = 'default',
-            last_name = 'default',
+            username = 'johnnytest',
+            first_name = 'Johnny',
+            last_name = 'Test',
             email = 'email@email.com')
     user.send_welcome_email(user_type)
     # TODO scrape profile pages for initial data until we 
