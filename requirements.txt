@@ -1,0 +1,4 @@
+Django==1.4
+south
+ipython==0.11
+linaro-django-pagination

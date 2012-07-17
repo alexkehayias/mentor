@@ -1,0 +1,15 @@
+#!/bin/sh
+dotcloud_get_env() {
+    sed -n "/$1/ s/.*: \"\(.*\)\".*/\1/p" < "$HOME/environment.json"
+}
+
+setup_django() {
+    python app/manage.py syncdb --settings=settings_production --noinput
+    python app/manage.py migrate --settings=settings_production --noinput
+    #crontab ~/current/app/cron/crontab.sh
+    python ~/current/mkadmin.py
+    mkdir -p /home/dotcloud/data/media /home/dotcloud/volatile/static /home/dotcloud/log
+    python app/manage.py collectstatic --settings=settings_production --noinput
+}
+
+setup_django
