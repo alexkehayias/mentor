@@ -6,3 +6,4 @@ build
 *.sassc
 *.log
 settings_private.py
+mkadmin.py

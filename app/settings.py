@@ -1,4 +1,5 @@
-# Django settings for app project.
+from settings_private import *
+
 import os
 
 SITE_ROOT = os.path.abspath(os.path.dirname(__file__))
