@@ -5,20 +5,13 @@
 <div class="container">
     <div class="row" style="background: url('/static/images/homepage-background.jpg') no-repeat;">
         <div class="nine columns centered">
-            <div align="center" style="padding: 230px 0;"></div>
-            <div class="row" style="margin-bottom: -80px;">
+            <div align="center" style="padding: 180px 0 250px 0 ;"></div>
+            <div class="row" style="margin-bottom: -50px;">
                 <div class="twelve columns">
                     <div class="row">
-                        <div class="six columns">
-                            <div class="roundedbox small">
-                                <h3 style="display: inline-block;">Student</h3>
-                                <a href="{% url signup "student" %}" class="nice radius blue button" style="margin-left: 10px;">Signup »</a>
-                            </div>
-                        </div>
-                        <div class="six columns">
-                            <div class="roundedbox small">
-                                <h3 style="display: inline-block;">Mentor</h3>
-                                <a href="{% url signup "mentor" %}" class="nice radius blue button" style="margin-left: 10px;">Signup »</a>                    
+                        <div class="six columns centered">
+                            <div class="roundedbox small" align="center" style="border-radius: 100px;">
+                                <a href="{% url signup "student" %}" class="nice radius blue button">Start a Project Today »</a>
                             </div>
                         </div>
                     </div>
@@ -31,10 +24,10 @@
     <div class="container">
         <div class="row">
             <div class="twelve columns">
-                <img src="/static/images/how-it-works.png" style="margin-top: 40px;" />
+                <img src="/static/images/how-it-works.png" />
                 <div class="row" style="margin-top: 50px;">
                     <div class="six columns">
-                        <h2><img src="/static/images/bullet.png" />Becoming a student</h2>
+                        <h2><img src="/static/images/bullet.png" />For students</h2>
                         <p>
                         Connect with a mentor to help you learn faster. Mentors are in 
                         high demand, so share your customized learning goal web page with 
@@ -43,11 +36,11 @@
                         <a href="{% url signup "mentor" %}" class="nice radius blue button">Signup »</a>
                     </div>
                     <div class="six columns">
-                        <h2><img src="/static/images/bullet.png" />Becoming a mentor</h2>
+                        <h2><img src="/static/images/bullet.png" />For mentors</h2>
                         <p>
-                            Being a good mentor is almost as hard as finding the right 
-                            people to mentor. The P2PU Mentorship program identifies the 
-                            best candidates looking for a mentor with your expertise.
+                        Post a project you are working on and learners can request
+                        to join. You get help with your project in exchange for
+                        mentoring learners with the skills needed for the project.
                         </p>
                         <a href="{% url signup "mentor" %}" class="nice radius blue button">Signup »</a>
                     </div>

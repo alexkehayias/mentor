@@ -5,8 +5,7 @@ from django.contrib.auth import login as auth_login, authenticate, logout as aut
 from django.shortcuts import redirect
 
 from accounts.forms import LoginForm, SponsorForm, ProfileForm
-from mentorships.models import JoinRequest, Project
-from mentorships.forms import JoinRequestForm, ProjectForm
+from mentorships.models import Project
 
 def signup(request, user_type):
     '''Create an account for the user that logged in with p2pu
