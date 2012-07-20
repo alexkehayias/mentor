@@ -51,7 +51,7 @@ class ProjectLog(models.Model):
         ordering = ('-id',)
 
     def __unicode__(self):
-        return self.mentorship.from_user.first_name
+        return self.project.title
 
 class Sponsor(models.Model):
     project = models.ForeignKey(Project)

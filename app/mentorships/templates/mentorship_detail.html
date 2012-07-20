@@ -1,5 +1,5 @@
 {% extends "mentorship_category.html" %}
-
+{% load pagination_tags %}
 {% block content_title %} 
 {{project.title}}
 {% endblock %}
@@ -9,25 +9,6 @@
 <div class="alert-box error">This project is no longer accepting mentors or learners</div>
 {% endif %}
 <a style="position: absolute; top:0;" href="{% url project_category %}">« Back</a>
-{% endblock %}
-
-{% block sidebar %}
-<p><img src="{{user.p2puprofile.picture}}" class="profilepicture large" /></p>
-<h2>Skills</h2>
-{% for skill in user.p2puprofile.skills.all %}
-    <span class="tag">
-        <a href="{% url project_category_skill skill.id %}">{{skill.name}}</a>
-    </span>
-{% endfor %}
-{% if project.sponsor_set.count > 0 %}
-<div style="margin-top: 20px;">
-    <img src="/static/images/supporters.png" style="margin-right: 10px;" />
-    <b>{{project.sponsor_set.count}} supporters</b>
-</div>
-{% endif %}
-{% endblock %}
-
-{% block detail_content %}
 {% if not project.closed %}  
 <div class="alert-box">
     {% if project.project_type == 'l' %}
@@ -49,7 +30,36 @@
     {% endif %}
 </div>
 {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+<p><img src="{{user.p2puprofile.picture}}" class="profilepicture large" /></p>
+<h3>About {{project.added_by.first_name}}</h3>
+{% with project.added_by.p2puprofile as profile %}
+<p class="smaller">{{profile.bio}}</p>
+<small>
+    <p><b>Location</b>: {{profile.location}}<br/>
+    <b>Language</b>: {{profile.language}}
+    </p>
+</small>
+{% endwith %}
+<h3>Skills</h3>
+{% for skill in user.p2puprofile.skills.all %}
+    <span class="tag">
+        <a href="{% url project_category_skill skill.id %}">{{skill.name}}</a>
+    </span>
+{% endfor %}
+{% endblock %}
+
+{% block detail_content %}
+{% if project.sponsor_set.count > 0 %}
+<p>
+    <img src="/static/images/supporters.png" style="margin-right: 10px;" />
+    <b>{{project.sponsor_set.count}} supporters</b>
+</p>
+{% endif %}
 <h2>About the Project</h2>
+<p><b>Looking for: </b>{% if project.project_type == 'l' %} Mentors{% else %}Learners{% endif %}</p>
 <p>{{project.description}}</p>
 <h2>Skills Being Used</h2>
 <p>
@@ -61,24 +71,21 @@
 <i>No skills listed</i>
 {% endfor %}
 </p>
-<h2>About {{project.added_by.first_name}}</h2>
-{% with project.added_by.p2puprofile as profile %}
-<p>{{profile.bio}}</p>
-<small>
-    <p><b>Location</b>: {{profile.location}}<br/>
-    <b>Language</b>: {{profile.language}}
-    </p>
-</small>
-{% endwith %}
 <h2>You should join if...</h2>
 <p>{{project.looking_for}}</p>
 {% if not project.closed %}
 <a 
     class="nice radius blue button connect" 
     data-user-id="{{project.from_user.p2puprofile.p2pu_id}}"
-    data-project-request-id="{{project.id}}">
+    data-project-request-id="{{project.id}}"
+    style="margin-bottom: 20px;">
     Join This Project »
 </a>
 {% endif %}
+{% include "project_log.html" %}
+{% endblock %}
 
+{% block scripts %}
+<script type="text/javascript" src="/static/javascripts/jquery.reveal.js"></script>
+<script type="text/javascript" src="/static/javascripts/project.js"></script>
 {% endblock %}

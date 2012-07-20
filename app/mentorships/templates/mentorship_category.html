@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-
+{% load pagination_tags %}
 {% block content_title %}
 Projects
 {% if skill %} - {{skill.name}}{% endif %}
-{% endblock %}
+{% endblock %}a
 {% block content %}
 {% block instructions %}
 <p>Select a project request to connect with a student.
@@ -31,15 +31,9 @@ Click "Connect" to start mentoring a student!
     </div>
     <div class="nine columns">
         {% block detail_content %}
+        {% autopaginate projects 10 %}
         {% for project in projects %}
         <div class="snippet">
-            <a 
-                class="nice radius small blue button connect" 
-                style="float:right;"
-                data-user-id="{{project.from_user.p2puprofile.p2pu_id}}"
-                data-project-request-id="{{project.id}}">
-                Connect
-            </a>
             <a 
                 href="{% url project_detail project.id %}" 
                 class="nice radius small blue button" 
@@ -49,8 +43,10 @@ Click "Connect" to start mentoring a student!
             <p>
                 {% with project.added_by as user %}
                 <img src="{{user.p2puprofile.picture}}" class="profilepicture small"/>                
-                <span>{{user.first_name}}
-                    {{user.last_name}}</span>
+                <span>
+                    {{user.first_name}}{{user.last_name}}
+                    is {% if project.project_type == 'l' %}looking for mentors{% else %}mentoring{% endif %}
+                </span>
                 {% endwith %}
             </p>
             <h2>{{project.title}}</h2>
@@ -60,13 +56,11 @@ Click "Connect" to start mentoring a student!
                 <b>{{project.sponsor_set.count}} supporters</b>
             {% endif %}
         </div>
+        {% empty %}
+        <i>No new projects.</i>
         {% endfor %}
+        {% paginate %}
         {% endblock %}
     </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script type="text/javascript" src="/static/javascripts/jquery.reveal.js"></script>
-<script type="text/javascript" src="/static/javascripts/project.js"></script>
 {% endblock %}

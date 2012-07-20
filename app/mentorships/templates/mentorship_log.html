@@ -15,24 +15,6 @@
 {% endblock %}
 {% block fullwidth %}
 <div class="container">
-    <div class="row">
-        <div class="six columns centered" style="margin-top: 40px;">
-            <h2 style="margin-left: -21px;">Recent Updates</h2>
-            {% autopaginate updates 10 %}
-            {% for update in updates %}
-            <div class="row update">
-                <div class="two columns">
-                    <img class="profilepicture medium" src="{{update.added_by.p2puprofile.picture}}" />
-                </div>
-                <div class="ten columns">
-                    <small>{{update.date_added|date}}</small>
-                    <p>{{update.content}}</p>
-                </div>
-            </div>
-            <hr style="margin: 0; margin-top:-2px; padding-left: 30px;"/>
-            {% endfor %}
-            {% paginate %}
-        </div>
-    </div>
+    {% include "project_log.html" %}
 </div>
 {% endblock %}

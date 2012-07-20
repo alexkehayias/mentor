@@ -4,6 +4,7 @@ from accounts.models import *
 from mentorships.models import *
 
 admin.site.register(Project)
+admin.site.register(ProjectLog)
 admin.site.register(Skill)
 admin.site.register(JoinRequest)
 admin.site.register(Sponsor)

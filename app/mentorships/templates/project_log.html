@@ -1,0 +1,16 @@
+{% load pagination_tags %}
+<h2>Progress</h2>
+{% autopaginate project.projectlog_set.all 10 %}
+{% for update in project.projectlog_set.all %}
+<div class="row update">
+    <div class="two columns">
+        <img class="profilepicture medium" src="{{update.added_by.p2puprofile.picture}}" />
+    </div>
+    <div class="ten columns">
+        <small>{{update.date_added|date}}</small>
+        <p>{{update.content}}</p>
+    </div>
+</div>
+<hr style="margin: 0; margin-top:-2px; padding-left: 30px;"/>
+{% endfor %}
+{% paginate %}
