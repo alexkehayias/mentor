@@ -2,27 +2,23 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 
-from mentorships.models import Skill, MentorshipRequest
-
 class P2PUProfile(models.Model):
     user = models.OneToOneField(User)
     p2pu_id = models.CharField(max_length=100)
     picture = models.URLField(null=True, blank=True)
     bio = models.TextField(max_length=1000, null=True, blank=True)
     location = models.CharField(max_length=200, null=True, blank=True)
-    skills = models.ManyToManyField(Skill, null=True, blank=True)
+    skills = models.ManyToManyField('Skill', null=True, blank=True)
     language = models.CharField(max_length=100, null=True, blank=True)
     
     def __unicode__(self):
         return self.user.first_name
 
-class Sponsor(models.Model):
-    mentorship_request = models.ForeignKey(MentorshipRequest)
-    email = models.EmailField()
-    receive_email_updates = models.BooleanField(default=True)
+class Skill(models.Model):
+    name = models.CharField(max_length=100)
 
     def __unicode__(self):
-        return self.mentorship_request.from_user.first_name
+        return self.name
 
 # User model properties
 

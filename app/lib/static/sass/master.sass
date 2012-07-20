@@ -166,24 +166,7 @@ tbody
 
 /* Logo, tab navigation and user signout */
 
-.navigation-container
-  //border-bottom: 1px solid #eeeeee
-
 .navigation
-  &.homepage
-    border-bottom: none 
-    -moz-box-shadow: none
-    -webkit-box-shadow: none
-    -o-box-shadow: none
-    box-shadow: none
-  .myaccount 
-    span
-      color: lighten(black, 85%)
-      text-shadow: -1px -1px black
-    &.hover
-      color: lighten(black, 85%)
-      text-shadow: -1px -1px black
-      text-decoration: underline
   .header
     h1
       color: $primary-color
@@ -211,43 +194,27 @@ tbody
     .navitem
       position: relative
       color: $primary-color
-      text-shadow: -1px -1px black
       display: inline-block
-      font-weight: bold
-      opacity: 0.9      
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)"
-      filter: alpha(opacity=5=90)
-      -moz-opacity: 0.9
-      -khtml-opacity: 0.9
-      padding: 5px 8px
+      font-weight: normal
+      padding: 0px 8px
       font-size: 11px
-      font-family: "myriad-pro", helvetica
+      font-family: "myriad-pro", helvetica, calibri
       text-transform: uppercase
-      text-shadow: -1px 1px solid white
       margin-top: 7px
+      margin-left: 10px
       cursor: pointer
       &:hover
-        border-radius: 5px
-        -webkit-border-radius: 5px
-        -moz-border-radius: 5px
-        background: #3A3A3A
-        opacity: 0.8      
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"
-        filter: alpha(opacity=5=80)
-        -moz-opacity: 0.8
-        -khtml-opacity: 0.8
-        -moz-box-shadow: inset 1px 1px 4px 3px #2A2A2A 
-        -webkit-box-shadow: inset 1px 1px 4px 3px #2A2A2A
-        box-shadow: inset 1px 1px 4px 3px #2A2A2A
-        background: lighten(black, 20%)
+        +border-radius(5px)
+        background: #eeeeee
         cursor: pointer
+        border-bottom: 1px solid #dddddd
 
 .log
   font-size: 14px
   text-decoration: underline
   float: right
   font-family: "myriad pro", helvetica, arial
-  margin-top: 10px
+  margin-top: 5px
   &.homepage
     margin-top: 0
 

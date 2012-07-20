@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth import login, authenticate
 
-from accounts.models import Sponsor, P2PUProfile
+from accounts.models import P2PUProfile
+from mentorships.models import Sponsor
 
 class LoginForm(forms.Form):
     email = forms.CharField(max_length=100)
@@ -23,16 +24,16 @@ class LoginForm(forms.Form):
 class SponsorForm(forms.ModelForm):
     class Meta:
         model = Sponsor
-        exclude = ('mentorship_request', )
+        exclude = ('project', )
         widgets = {
             'email': forms.widgets.TextInput(
                 attrs = {
                     'placeholder':'Enter you email address.'}),
             }
 
-class MentorProfileForm(forms.ModelForm):
+class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(MentorProfileForm, self).__init__(*args, **kwargs)
+        super(ProfileForm, self).__init__(*args, **kwargs)
         self.fields['skills'].help_text = "Start typing the name of a skill then press tab to add it to the list."
     class Meta:
         model = P2PUProfile

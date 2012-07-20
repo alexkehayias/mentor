@@ -1,10 +1,20 @@
 {% extends "form_template.html" %}
-{% block form_title %}Help {{mentorship_request.from_user.first_name}} get a {{mentorship_request.learning.name}} mentor!{% endblock %}
+{% block form_title %}
+{% if project.project_type == 'l' %}
+{{project.added_by.first_name}} is learning {{project.skills.all|join:', '}} and needs your help!
+{% else %}
+{{project.added_by.first_name}} started a project to mentor peers in  
+{{project.skills.all|join:', '}} and needs your help!
+{% endif %}
+{% endblock %}
 {% block form %}
 <p>
-P2PU provides free peer to peer mentorship for people that are committed to learning. 
-Show your support for Alex and we'll bump them up the line to get a mentor.
+P2PU provides free peer to peer mentorship projects for people that 
+are committed to learning. Show your support for {{project.added_by.first_name}}
+and we'll bump them up the priority list.
 </p>
+<h2>About the Project</h2>
+<p>{{project.description}}</p>
 <form method="post">
     {% csrf_token %}
     {% if form.errors %}
@@ -15,14 +25,14 @@ Show your support for Alex and we'll bump them up the line to get a mentor.
     {% endif %}
     {% if saved %}<div class="alert-box success">Thanks for your support!</div>{% endif %}    
     {{form.email}}
-    <input type="submit" class="nice radius large blue button" value="Support {{user.first_name}}" />
-    {{form.receive_email_updates}} I'd like to receive email updates about {{mentorship_request.from_user.first_name}}'s progress<br/>
+    <input type="submit" class="nice radius blue button" value="Support {{user.first_name}}"/>
+    <br/>{{form.receive_email_updates}} I'd like to receive email updates about {{project.added_by.first_name}}'s progress<br/>
     <small>We will never email you without your permission.</small>
 </form>
 {% endblock %}
 {% block fullwidth %}
 <div style="background: #eeeeee; border-top: 1px solid #999999; border-bottom: 1px solid #999999; margin: 50px 0; text-align: center; padding: 20px;">
-    Interested in finding or becoming a mentor? 
+    Interested in starting your own mentorship project? 
     <a href="{% url home %}" class="nice radius small black button" style="margin-left: 10px;">Learn More »</a>
 </div>
 {% endblock %}
