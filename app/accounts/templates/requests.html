@@ -10,14 +10,14 @@
             </div>
             <div class="ten columns">
                 <p><b>{{req.added_by.first_name}} {{req.added_by.last_name}}</b>
-                wants to join <a href="{% url project req.project.id %}">"{{req.project.title}}"</a> as a 
+                wants to join <a href="{% url project_detail req.project.id %}">"{{req.project.title}}"</a> as a 
                     {% if req.project.type == 'l' %}learner.
                     {% else %}mentor.
                     {% endif %}
                 </p>
-                <p>{{req.note}}</p>
+                <p><i>"{{req.note}}"</i></p>
                 <a name="{{req.added_by.id}}" class="nice radius blue button accept">Accept</a>
-                <a name="{{req.added_by.id}}" class="reject" style="margin-left: 10px;">Reject</a>
+                <a name="{{req.added_by.id}}" class="reject" style="margin-left: 10px;">No Thanks</a>
             </div>
         </div>
         <hr/>

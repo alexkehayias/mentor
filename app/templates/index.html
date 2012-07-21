@@ -10,8 +10,12 @@
                 <div class="twelve columns">
                     <div class="row">
                         <div class="six columns centered">
-                            <div class="roundedbox small" align="center" style="border-radius: 100px;">
-                                <a href="{% url signup "student" %}" class="nice radius blue button">Start a Project Today »</a>
+                            <div align="center">
+                                <a 
+                                    style="border-radius: 100px; font-size: 24px;" 
+                                    href="{% url signup "student" %}" 
+                                    class="nice radius blue button roundedbox">Start a Project Today »
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -51,17 +55,21 @@
                         <p>The P2PU Mentorship program is serious about bringing motivated
                         people together to learn and mentor. We've made it super easy 
                         to mentor or be mentored, but we need help to keep it going.
-                        <h3>Beautiful Progress Tracking</h3>
-                        <p>Mentors and students are expected to fill out a regular update 
-                        about what they have done. We'll turn that into a fun timeline 
-                        to share with your supporters and the mentorship community. 
-                        Those who keep up with the program are eligible for 
-                        additional mentorship opportunities!</p>
-                        <h3>Time Committment</h3>
-                        <p>A typical mentorship lasts for about 1-2 months (or more) and 
-                        weekly conversations between the mentor and student. It's up 
-                        to you to pursue the mentorship how you want, but we recommend
-                        you chat regularly and have a weekly phone/skype call.</p>
+                        <div class="row">
+                            <div class="six columns">
+                                <h3>Progress Tracking</h3>
+                                <p>Mentors and students are expected to fill out a regular update 
+                                about what they have done. We'll turn that into a fun timeline 
+                                to share with your supporters and the mentorship community. 
+                                </p>
+                            </div>
+                            <div class="six columns">
+                                <h3>Time Committment</h3>
+                                <p>A typical mentorship lasts for about 1-2 months (or more) and 
+                                weekly conversations between the mentor and student. It's up 
+                                to you to pursue the mentorship how you want.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--
