@@ -3,7 +3,8 @@
 {% block content_title %}
 Projects
 {% if skill %} - {{skill.name}}{% endif %}
-{% endblock %}a
+{% endblock %}
+
 {% block content %}
 {% block instructions %}
 <p>Select a project request to connect with a student.
@@ -26,7 +27,8 @@ Click "Connect" to start mentoring a student!
     <div class="three columns">
         {% block sidebar %}
         <dl class="nice vertical tabs">
-            <dd><a href="{% url project_category %}">Latest</a></dd>            
+            <dd><a href="{% url project_category %}">Latest</a></dd>
+            <dd><a href="{% url project_category %}?my_projects=true">My Projects</a></dd>            
             {% for skill in skills %}
             <dd><a href="{% url project_category_skill skill.id %}">{{skill.name}}</a></dd>
             {% endfor %}

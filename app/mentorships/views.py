@@ -33,7 +33,6 @@ def projects(request, project_id=None, skill_id=None):
         note = request.POST['note']
         user = request.user
         project = Project.objects.get(pk=project_id)
-        # Send a request to join the project
         join = JoinRequest.objects.get_or_create(
                 project = project,
                 added_by = user,
@@ -43,9 +42,14 @@ def projects(request, project_id=None, skill_id=None):
         return HttpResponse(json.dumps(resp), mimetype='json')
     if bool(project_id):
         project = get_object_or_404(Project, pk=project_id)
-        return direct_to_template(request, 'mentorship_detail.html', locals())
-    # TODO filter based on reqeusts that are open only
-    projects = Project.objects.filter(closed=False).select_related('sponsor_set', 'added_by')
+        return direct_to_template(
+                request, 'mentorship_detail.html', locals())
+    projects = Project.objects.filter(
+            closed=False).select_related(
+                    'sponsor_set', 'added_by')
+    if request.GET.get('my_projects'):
+        skill = {'name':'My Projects'}
+        projects = projects.filter(added_by=request.user)
     if bool(skill_id):
         skill = Skill.objects.get(pk=skill_id)
         projects = projects.filter(skills=skill)
@@ -58,7 +62,7 @@ def support(request, project_id):
     return direct_to_template(request, 'get_supporters.html', locals())
 
 @login_required
-def mentorship_log(request, project_id):
+def project_log(request, project_id):
     '''Once a mentorship is established, periodic updates 
     track the progress of the mentor -> student relationship'''
     mentorship = Project.objects.get(pk=project_id)
@@ -69,13 +73,13 @@ def mentorship_log(request, project_id):
         if form.is_valid():
             log = form.save(commit=False)
             log.added_by = request.user
-            log.mentorship = mentorship
+            log.project = mentorship
             log.save()
             saved = True
             form = ProjectLogForm()
-    if request.user == mentorship.student:
+    if request.user == mentorship.added_by:
         role = "learning"
     else:
-        role = "mentoring %s on" % mentorship.student.first_name
-    updates = ProjectLog.objects.filter(mentorship=mentorship)
+        role = "mentoring %s on" % mentorship.added_by.first_name
+    updates = ProjectLog.objects.filter(project=mentorship)
     return direct_to_template(request, 'mentorship_log.html', locals())
