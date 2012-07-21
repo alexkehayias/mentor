@@ -4,6 +4,7 @@
   $(function() {
     return $(".accept, .reject").on("click", function(e) {
       var state;
+      $(this).parent().parent().fadeOut();
       if (__indexOf.call(e.currentTarget.classList, "accept") >= 0) {
         state = "accept";
       } else {

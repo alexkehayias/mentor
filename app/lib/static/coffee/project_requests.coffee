@@ -1,5 +1,6 @@
 $ ->
     $(".accept, .reject").on "click", (e) ->
+        $(@).parent().parent().fadeOut()
         if "accept" in e.currentTarget.classList
             state = "accept"
         else

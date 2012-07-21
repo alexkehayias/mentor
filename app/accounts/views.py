@@ -86,9 +86,10 @@ def project_requests(request):
         else:
             project_request.closed = True
             project_request.save()
+            print project_request.closed
         return HttpResponse('done')
     user = request.user
-    join_requests = JoinRequest.objects.all()
+    join_requests = JoinRequest.objects
     user_requests = join_requests.filter(added_by=user).exclude(closed=True)
-    project_requests = join_requests.filter(project__in=user.project_set.all())
+    project_requests = join_requests.filter(project__in=user.project_set.all()).exclude(closed=True)
     return direct_to_template(request, 'requests.html', locals())
