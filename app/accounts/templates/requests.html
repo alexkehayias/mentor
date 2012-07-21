@@ -10,16 +10,37 @@
             </div>
             <div class="ten columns">
                 <p><b>{{req.added_by.first_name}} {{req.added_by.last_name}}</b>
-                    wants to join "{{req.project.title}}" as a 
+                wants to join <a href="{% url project req.project.id %}">"{{req.project.title}}"</a> as a 
                     {% if req.project.type == 'l' %}learner.
                     {% else %}mentor.
                     {% endif %}
                 </p>
+                <p>{{req.note}}</p>
                 <a name="{{req.added_by.id}}" class="nice radius blue button accept">Accept</a>
                 <a name="{{req.added_by.id}}" class="reject" style="margin-left: 10px;">Reject</a>
             </div>
         </div>
         <hr/>
+    {% empty %}<i>No project requests</i>
+    {% endfor %}
+    <h2 style="margin-top: 30px;">My Pending Requests</h2>
+    {% for req in user_requests %}
+        <div class="row">
+            <div class="two columns">
+                <img src="{{req.added_by.p2puprofile.picture}}" class="profilepicture" />
+            </div>
+            <div class="ten columns">
+                <p>I requested to join 
+                    <a href="{% url project_detail req.project.id %}">"{{req.project.title}}"</a> as a 
+                    {% if req.project.type == 'l' %}learner.
+                    {% else %}mentor.
+                    {% endif %}
+                </p>
+                <p><b>Status</b>: {{req.status}}</p>
+            </div>
+        </div>
+        <hr/>
+    {% empty %}<i>No pending requests</i>
     {% endfor %}
     </div>
 </div>

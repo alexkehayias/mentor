@@ -56,6 +56,14 @@ class JoinRequest(models.Model):
         project.members.add(self.added_by)
         project.save()
 
+    @property
+    def status(self):
+        if self.added_by in self.project.members.all():
+            return 'Accepted'
+        elif self.closed == True:
+            return 'Rejected'
+        return 'Pending'
+
 class ProjectLog(models.Model):
     '''Describes progress of an established mentorship'''
     project = models.ForeignKey(Project)
