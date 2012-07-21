@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content_title %}Requests{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="eight columns">
+    {% for req in project_requests %}
+        <div class="row">
+            <div class="two columns">
+                <img src="{{req.added_by.p2puprofile.picture}}" class="profilepicture" />
+            </div>
+            <div class="ten columns">
+                <p><b>{{req.added_by.first_name}} {{req.added_by.last_name}}</b>
+                    wants to join "{{req.project.title}}" as a 
+                    {% if req.project.type == 'l' %}learner.
+                    {% else %}mentor.
+                    {% endif %}
+                </p>
+                <a name="{{req.added_by.id}}" class="nice radius blue button accept">Accept</a>
+                <a name="{{req.added_by.id}}" class="reject" style="margin-left: 10px;">Reject</a>
+            </div>
+        </div>
+        <hr/>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/javascripts/project_requests.js"></script>
+{% endblock %}

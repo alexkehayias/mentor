@@ -39,7 +39,23 @@ class JoinRequest(models.Model):
 
     def __unicode__(self):
         return self.project.title
- 
+
+    def send_notification(self):
+        '''Send a notification to the user'''
+        message = self.note
+        from_user = self.added_by.p2puprofile.p2pu_id
+        # TODO send the notification alert via api
+        return True
+
+    def accept(self):
+        '''Add the requestor to the project member team
+        and send a notification'''
+        self.closed = True
+        self.save()
+        project = self.project
+        project.members.add(self.added_by)
+        project.save()
+
 class ProjectLog(models.Model):
     '''Describes progress of an established mentorship'''
     project = models.ForeignKey(Project)

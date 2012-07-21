@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     url(r'^signup/(?P<user_type>[\w-]+)/$', 'accounts.views.signup', name='signup'),
     url(r'^login/$', 'accounts.views.login', name='login'),   
     url(r'^logout/$', 'accounts.views.logout', name='logout'),   
-
+    url(r'^requests/$', 'accounts.views.project_requests', name='project_requests'),   
 
     url(r'^mentorship/(?P<mentorship_id>[0-9]+)/log/$', 'mentorships.views.mentorship_log', name='mentorship_log'),   
     

@@ -3,33 +3,11 @@
 {% block content_title %} 
 {{project.title}}
 {% endblock %}
-
 {% block instructions %}
 {% if project.closed %}
 <div class="alert-box error">This project is no longer accepting mentors or learners</div>
 {% endif %}
 <a style="position: absolute; top:0;" href="{% url project_category %}">« Back</a>
-{% if not project.closed %}  
-<div class="alert-box">
-    {% if project.project_type == 'l' %}
-    <span>Get started mentoring this student!</span>
-    <a 
-        class="nice radius blue button connect" 
-        style="margin-left: 10px;" 
-        data-user-id="{{project.added_by.p2puprofile.p2pu_id}}"
-        data-project-request-id="{{project.id}}">
-        Mentor {{project.added_by.first_name}} » </a>
-    {% else %}
-    <span>Join this project and get mentored!</span>
-    <a 
-        class="nice radius blue button connect" 
-        style="margin-left: 10px;" 
-        data-user-id="{{project.added_by.p2puprofile.p2pu_id}}"
-        data-project-request-id="{{project.id}}">
-        Join this project » </a>
-    {% endif %}
-</div>
-{% endif %}
 {% endblock %}
 
 {% block sidebar %}
@@ -52,6 +30,27 @@
 {% endblock %}
 
 {% block detail_content %}
+{% if not project.closed %}  
+<div class="alert-box">
+    {% if project.project_type == 'l' %}
+    <span>Get started mentoring this student!</span>
+    <a 
+        class="nice radius blue button connect" 
+        style="margin-left: 10px;" 
+        data-user-id="{{project.added_by.p2puprofile.p2pu_id}}"
+        data-project-request-id="{{project.id}}">
+        Mentor {{project.added_by.first_name}} » </a>
+    {% else %}
+    <span>Join this project and get mentored!</span>
+    <a 
+        class="nice radius blue button connect" 
+        style="margin-left: 10px;" 
+        data-user-id="{{project.added_by.p2puprofile.p2pu_id}}"
+        data-project-request-id="{{project.id}}">
+        Join this project » </a>
+    {% endif %}
+</div>
+{% endif %}
 {% if project.sponsor_set.count > 0 %}
 <p>
     <img src="/static/images/supporters.png" style="margin-right: 10px;" />
@@ -73,15 +72,18 @@
 </p>
 <h2>You should join if...</h2>
 <p>{{project.looking_for}}</p>
-{% if not project.closed %}
-<a 
-    class="nice radius blue button connect" 
-    data-user-id="{{project.from_user.p2puprofile.p2pu_id}}"
-    data-project-request-id="{{project.id}}"
-    style="margin-bottom: 20px;">
-    Join This Project »
-</a>
+{% if not project.closed %}  
+    {% if project.project_type == 'l' %}
+    <a class="nice radius blue button connect">
+        Mentor {{project.added_by.first_name}} » 
+    </a>
+    {% else %}
+    <a class="nice radius blue button connect">
+        Join this project » 
+    </a>
+    {% endif %}
 {% endif %}
+<br/><br/>
 {% include "project_log.html" %}
 {% endblock %}
 

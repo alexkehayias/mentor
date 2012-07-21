@@ -30,20 +30,15 @@ def project_form(request):
 def projects(request, project_id=None, skill_id=None):
     '''View for handling mentorship request category and detail views'''
     if request.method == 'POST':
-        mentor = request.user
-        user_id = request.POST['user_id']
-        skill_id = request.POST['skill_id']
-        project_id = request.POST['project_id']
-        student = User.objects.get(p2puprofile__p2pu_id=user_id)
-        learning = Skill.objects.get(pk=skill_id)
-        Project.objects.get_or_create(
-                mentor = mentor, 
-                student = student, 
-                learning = learning)
-        # Close the mentorship request
+        note = request.POST['note']
+        user = request.user
         project = Project.objects.get(pk=project_id)
-        project.closed = True
-        project.save()
+        # Send a request to join the project
+        join = JoinRequest.objects.get_or_create(
+                project = project,
+                added_by = user,
+                note = note)
+        join.send_notification()
         resp = {'message': 'created'}
         return HttpResponse(json.dumps(resp), mimetype='json')
     if bool(project_id):
@@ -61,7 +56,6 @@ def projects(request, project_id=None, skill_id=None):
 def support(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     return direct_to_template(request, 'get_supporters.html', locals())
-
 
 @login_required
 def mentorship_log(request, project_id):

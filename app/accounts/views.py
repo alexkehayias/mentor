@@ -3,9 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.shortcuts import redirect
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.views.decorators.csrf import csrf_exempt
 
 from accounts.forms import LoginForm, SponsorForm, ProfileForm
-from mentorships.models import Project
+from mentorships.models import Project, JoinRequest
 
 def signup(request, user_type):
     '''Create an account for the user that logged in with p2pu
@@ -67,3 +69,26 @@ def sponsor(request, project_id):
             form = SponsorForm()
             saved = True
     return direct_to_template(request, 'sponsor.html', locals())
+
+@login_required
+@csrf_exempt
+def project_requests(request):
+    '''View the status of project requests from or for the user'''
+    if request.method == 'POST':
+        try:
+            request_id = request.POST['request_id']
+            state = request.POST['state']
+        except KeyError:
+            return HttpResponseBadRequest()
+        project_request = JoinRequest.objects.get(pk=request_id)
+        if state == 'accept':
+            project_request.accept()
+        else:
+            project_request.closed = True
+            project_request.save()
+        return HttpResponse('done')
+    user = request.user
+    join_requests = JoinRequest.objects.all()
+    user_requests = join_requests.filter(added_by=user)
+    project_requests = join_requests.filter(project__in=user.project_set.all())
+    return direct_to_template(request, 'requests.html', locals())

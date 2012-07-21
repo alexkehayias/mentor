@@ -27,6 +27,7 @@
                             <a class="log" href="{% url login %}">Login</a>
                             {% else %}
                             <a href = "{% url project_category %}" class="navitem">Browse</a>
+                            <a href = "{% url project_requests %}" class="navitem">Requests</a>                            
                             <a href = "{% url project_form %}" class="navitem">Start new Project</a>
                             <a class="log" href="{% url logout %}">Logout</a>
                             {% endif %}

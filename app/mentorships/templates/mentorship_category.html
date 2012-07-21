@@ -12,10 +12,14 @@ Click "Connect" to start mentoring a student!
 </p>
 {% endblock %}
 <div id="connectModal" class="reveal-modal">
-    <h1>Mentor this student</h1>
-    <p>Connect with this student and start mentoring! We'll send
-    and introduction email to both of you to kick it off.</p>
-    <a class="nice radius large blue button accept">Connect</a>
+    <h1>Join this Project</h1>
+    <p>Once you are accepted we will connect you with the 
+    project leader you can start collaborating. </p>
+    <div id="alert" class="alert-box error" style="display: none;"></div>
+    <form>
+        <textarea id="note" placeholder="Add a note about why you would like to join"></textarea>
+    </form>
+    <a class="nice radius large blue button accept">Send Request</a>
     <a class="close-reveal-modal">&#215;</a>
 </div>
 <div class="row">
