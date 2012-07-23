@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 class P2PUProfile(models.Model):
     user = models.OneToOneField(User)
     p2pu_id = models.CharField(max_length=100)
-    picture = models.URLField(null=True, blank=True)
+    picture = models.URLField(null=True, blank=True, default="/static/images/user.png")
     bio = models.TextField(max_length=1000, null=True, blank=True)
     location = models.CharField(max_length=200, null=True, blank=True)
     skills = models.ManyToManyField('Skill', null=True, blank=True)
