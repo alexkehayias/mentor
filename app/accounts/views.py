@@ -3,34 +3,33 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.shortcuts import redirect
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 
 from accounts.forms import LoginForm, SponsorForm, ProfileForm
 from mentorships.models import Project, JoinRequest
 
-def signup(request, user_type):
-    '''Create an account for the user that logged in with p2pu
-    and create their mentorship request'''
-    # TODO decode the login cookie
-    user, created = User.objects.get_or_create(
-            username = 'johnnytest',
-            first_name = 'Johnny',
-            last_name = 'Test',
-            email = 'email@email.com')
-    user.set_password('testing')
-    user.save()
-    user.send_welcome_email(user_type)
-    authenticated_user = authenticate(username='johnnytest', password='testing')
-    auth_login(request, authenticated_user)
-    # TODO scrape profile pages for initial data until we 
-    # get a user api from p2pu
-    return redirect('profile_form')
+@csrf_exempt
+def signup(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        user, created = User.objects.get_or_create(
+                username = email,
+                email = email)
+        if created:
+            user.set_password(password)
+            user.save()
+            user.send_welcome_email()
+        authenticated_user = authenticate(username=email, password=password)
+        auth_login(request, authenticated_user)
+    return HttpResponse()
 
 @login_required
 def profile_form(request):
+    user = request.user
     profile = request.user.p2puprofile
-    form = ProfileForm(instance=profile)
+    form = ProfileForm(instance=profile, initial={'first_name':user.first_name, 'last_name':user.last_name})
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():
@@ -47,7 +46,7 @@ def login(request):
             if form.authenticate(request) == True:
                 if request.GET.get('next'):
                     return redirect(request.GET['next'])                        
-                return redirect('')
+                return redirect('project_category')
             else:
                 form.errors['authenticate'] = "Whoops, wrong email and password!"
     return direct_to_template(request, 'login_form.html', locals())

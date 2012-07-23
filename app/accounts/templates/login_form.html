@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="six columns centered" style="margin-top: 40px">
+    <div class="roundedbox">
+        <h1>Login</h1>        
+        <form method="post" action="{% url login %}">
+            {% if form.errors.authenticate %}<div class="alert-box error">{{ form.errors.authenticate }}</div>{% endif %}
+        
+            {% csrf_token %}
+            <label>{{ form.email.label }}:</label>
+            {% if form.email.errors %}<div class="alert-box error">{{ form.email.errors }}</div>{% endif %}
+            
+            {{ form.email }}
+            <label>{{ form.password.label }}:</label>
+            {% if form.password.errors %}<div class="alert-box error">{{ form.password.errors }}</div>{% endif %}
+            
+            {{ form.password }}
+            <input type="submit" class="nice large radius blue button" value="Login" style="margin-right: 20px;" />
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+

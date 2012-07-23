@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', direct_to_template, {'template': 'index.html'}, name='home'),
-    url(r'^signup/(?P<user_type>[\w-]+)/$', 'accounts.views.signup', name='signup'),
+    url(r'^signup/$', 'accounts.views.signup', name='signup'),
     url(r'^login/$', 'accounts.views.login', name='login'),   
     url(r'^logout/$', 'accounts.views.logout', name='logout'),   
     url(r'^requests/$', 'accounts.views.project_requests', name='project_requests'),   

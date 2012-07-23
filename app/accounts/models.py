@@ -38,12 +38,9 @@ def send_email(user, subject, content):
     pass
 User.send_email = send_email
 
-def send_welcome_email(user, user_type):
+def send_welcome_email(user):
     subject = 'Welcome to P2PU Mentorship'
-    if user_type == 'student':
-        content = render_to_string('email/welcome_student.txt', locals())
-    else:
-        content = render_to_string('email/welcome_mentor.txt', locals())
+    content = render_to_string('email/welcome_student.txt', locals())
     user.send_email(subject, content)
 User.send_welcome_email = send_welcome_email
 
