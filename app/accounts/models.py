@@ -40,7 +40,7 @@ User.send_email = send_email
 
 def send_welcome_email(user):
     subject = 'Welcome to P2PU Mentorship'
-    content = render_to_string('email/welcome_student.txt', locals())
+    content = render_to_string('email/welcome.txt', locals())
     user.send_email(subject, content)
 User.send_welcome_email = send_welcome_email
 
