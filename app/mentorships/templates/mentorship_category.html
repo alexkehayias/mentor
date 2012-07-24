@@ -50,7 +50,7 @@ Click "Connect" to start mentoring a student!
                 {% with project.added_by as user %}
                 <img src="{{user.p2puprofile.picture}}" class="profilepicture small"/>                
                 <span>
-                    {{user.first_name}}{{user.last_name}}
+                    {{user.first_name}} {{user.last_name}}
                     is {% if project.project_type == 'l' %}looking for mentors{% else %}mentoring{% endif %}
                 </span>
                 {% endwith %}
