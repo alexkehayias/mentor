@@ -1,0 +1,11 @@
+Hey there,
+
+What have you been up to with your mentorship projects this week?
+
+Log your progress:
+{% for projects in project %}
+- {{project.title}}: {{project.log_url}}
+{% endfor %}
+
+Thanks,
+The P2PU Mentorship Team
