@@ -24,18 +24,16 @@ class Migration(SchemaMigration):
         db.create_table('accounts_p2puprofile_skills', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
             ('p2puprofile', models.ForeignKey(orm['accounts.p2puprofile'], null=False)),
-            ('skill', models.ForeignKey(orm['mentorships.skill'], null=False))
+            ('skill', models.ForeignKey(orm['accounts.skill'], null=False))
         ))
         db.create_unique('accounts_p2puprofile_skills', ['p2puprofile_id', 'skill_id'])
 
-        # Adding model 'Sponsor'
-        db.create_table('accounts_sponsor', (
+        # Adding model 'Skill'
+        db.create_table('accounts_skill', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('mentorship_request', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['mentorships.MentorshipRequest'])),
-            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
-            ('receive_email_updates', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
         ))
-        db.send_create_signal('accounts', ['Sponsor'])
+        db.send_create_signal('accounts', ['Skill'])
 
 
     def backwards(self, orm):
@@ -45,8 +43,8 @@ class Migration(SchemaMigration):
         # Removing M2M table for field skills on 'P2PUProfile'
         db.delete_table('accounts_p2puprofile_skills')
 
-        # Deleting model 'Sponsor'
-        db.delete_table('accounts_sponsor')
+        # Deleting model 'Skill'
+        db.delete_table('accounts_skill')
 
 
     models = {
@@ -58,15 +56,13 @@ class Migration(SchemaMigration):
             'location': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'p2pu_id': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'picture': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
-            'skills': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['mentorships.Skill']", 'null': 'True', 'blank': 'True'}),
+            'skills': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['accounts.Skill']", 'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True'})
         },
-        'accounts.sponsor': {
-            'Meta': {'object_name': 'Sponsor'},
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
+        'accounts.skill': {
+            'Meta': {'object_name': 'Skill'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'mentorship_request': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['mentorships.MentorshipRequest']"}),
-            'receive_email_updates': ('django.db.models.fields.BooleanField', [], {'default': 'True'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'auth.group': {
             'Meta': {'object_name': 'Group'},
@@ -102,20 +98,6 @@ class Migration(SchemaMigration):
             'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        'mentorships.mentorshiprequest': {
-            'Meta': {'ordering': "('-id',)", 'object_name': 'MentorshipRequest'},
-            'closed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'from_user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'learning': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['mentorships.Skill']"}),
-            'so_far': ('django.db.models.fields.TextField', [], {'max_length': '1000'}),
-            'why': ('django.db.models.fields.TextField', [], {'max_length': '1000'})
-        },
-        'mentorships.skill': {
-            'Meta': {'object_name': 'Skill'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         }
     }

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load pagination_tags %}
+
+{% block content_title %}Requests{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="eight columns">
+        <div class="snippet">
+            <h2>Requests for my projects</h2>
+            {% autopaginate project_requests %}
+            {% for req in project_requests %}
+            <div class="row">
+                <div class="two columns">
+                    <img src="{{req.added_by.p2puprofile.picture}}" class="profilepicture" />
+                </div>
+                <div class="ten columns">
+                    <p><b>{{req.added_by.first_name}} {{req.added_by.last_name}}</b>
+                    wants to join <a href="{% url project_detail req.project.id %}">"{{req.project.title}}"</a> as a 
+                        {% if req.project.type == 'l' %}learner.
+                        {% else %}mentor.
+                        {% endif %}
+                    </p>
+                    <p><i>"{{req.note}}"</i></p>
+                    <a name="{{req.id}}" class="nice radius blue button accept">Accept</a>
+                    <a name="{{req.id}}" class="reject" style="margin-left: 10px;">No Thanks</a>
+                </div>
+            </div>
+            <hr/>
+            {% empty %}<i>No new project requests</i>
+            {% endfor %}
+            {% paginate %}
+        </div>
+        <div class="snippet">
+            <h2>My Requests</h2>
+            {% autopaginate user_requests 10 %}
+            {% for req in user_requests %}
+                <div class="row">
+                    <div class="two columns">
+                        <img src="{{req.added_by.p2puprofile.picture}}" class="profilepicture" />
+                    </div>
+                    <div class="ten columns">
+                        <p>I requested to join 
+                            <a href="{% url project_detail req.project.id %}">"{{req.project.title}}"</a> as a 
+                            {% if req.project.type == 'l' %}learner.
+                            {% else %}mentor.
+                            {% endif %}
+                        </p>
+                        <p><b>Status</b>: {{req.status}}</p>
+                    </div>
+                </div>
+                <hr/>
+            {% empty %}<i>No pending requests</i>
+            {% endfor %}
+            {% paginate %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/javascripts/project_requests.js"></script>
+{% endblock %}

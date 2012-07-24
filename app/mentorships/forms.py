@@ -1,22 +1,37 @@
 from django import forms
 
-from mentorships.models import MentorshipRequest, MentorshipLog
+from mentorships.models import JoinRequest, Project, ProjectLog
 
-class MentorRequestForm(forms.ModelForm):
+class JoinRequestForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(MentorRequestForm, self).__init__(*args, **kwargs)
-        self.fields['so_far'].label = "What work have you done so far to learn this skill?"
-        self.fields['why'].label = "Why do you want to learn? What will you do with it?"
-        self.fields['learning'].label = "What are you learning?"
+        super(JoinRequestForm, self).__init__(*args, **kwargs)
+        self.fields['note'].label = "Write them a note about why you're interested"
     
     class Meta:
-        model = MentorshipRequest
-        exclude = ('from_user', 'closed')
+        model = JoinRequest
+        exclude = ('added_by', 'closed', 'project')
 
-class MentorshipLogForm(forms.ModelForm):
+class ProjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(MentorshipLogForm, self).__init__(*args, **kwargs)
+        super(ProjectForm, self).__init__(*args, **kwargs)
+        self.fields['skills'].help_text = "Start typing a skill and hit the tab key."
+        self.fields['project_type'].help_text = "Select whether you are looking for a mentor or want to mentor someone."
+    
+    class Meta:
+        model = Project
+        fields = (
+                'project_type',
+                'description', 
+                'title', 
+                'skills', 
+                'looking_for'
+            )
+        exclude = ('added_by', 'members')
+
+class ProjectLogForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProjectLogForm, self).__init__(*args, **kwargs)
         self.fields['content'].label = ""
     class Meta:
-        model = MentorshipLog
-        exclude = ('added_by', 'mentorship')
+        model = ProjectLog
+        exclude = ('added_by', 'project')

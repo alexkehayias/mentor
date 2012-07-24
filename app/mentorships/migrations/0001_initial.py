@@ -8,60 +8,90 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'MentorshipRequest'
-        db.create_table('mentorships_mentorshiprequest', (
+        # Adding model 'Project'
+        db.create_table('mentorships_project', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('from_user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('learning', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['mentorships.Skill'])),
-            ('so_far', self.gf('django.db.models.fields.TextField')(max_length=1000)),
-            ('why', self.gf('django.db.models.fields.TextField')(max_length=1000)),
+            ('added_by', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('description', self.gf('django.db.models.fields.TextField')(max_length=1000)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=120)),
+            ('looking_for', self.gf('django.db.models.fields.TextField')(max_length=1000)),
+            ('project_type', self.gf('django.db.models.fields.CharField')(default='l', max_length=1)),
             ('closed', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
-        db.send_create_signal('mentorships', ['MentorshipRequest'])
+        db.send_create_signal('mentorships', ['Project'])
 
-        # Adding model 'Mentorship'
-        db.create_table('mentorships_mentorship', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('mentor', self.gf('django.db.models.fields.related.ForeignKey')(related_name='mentor', to=orm['auth.User'])),
-            ('student', self.gf('django.db.models.fields.related.ForeignKey')(related_name='student', to=orm['auth.User'])),
-            ('learning', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['mentorships.Skill'])),
-            ('date_added', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+        # Adding M2M table for field skills on 'Project'
+        db.create_table('mentorships_project_skills', (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('project', models.ForeignKey(orm['mentorships.project'], null=False)),
+            ('skill', models.ForeignKey(orm['accounts.skill'], null=False))
         ))
-        db.send_create_signal('mentorships', ['Mentorship'])
+        db.create_unique('mentorships_project_skills', ['project_id', 'skill_id'])
 
-        # Adding model 'MentorshipLog'
-        db.create_table('mentorships_mentorshiplog', (
+        # Adding M2M table for field members on 'Project'
+        db.create_table('mentorships_project_members', (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('project', models.ForeignKey(orm['mentorships.project'], null=False)),
+            ('user', models.ForeignKey(orm['auth.user'], null=False))
+        ))
+        db.create_unique('mentorships_project_members', ['project_id', 'user_id'])
+
+        # Adding model 'JoinRequest'
+        db.create_table('mentorships_joinrequest', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('mentorship', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['mentorships.Mentorship'])),
+            ('added_by', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['mentorships.Project'])),
+            ('note', self.gf('django.db.models.fields.TextField')(max_length=1000)),
+            ('closed', self.gf('django.db.models.fields.BooleanField')(default=False)),
+        ))
+        db.send_create_signal('mentorships', ['JoinRequest'])
+
+        # Adding model 'ProjectLog'
+        db.create_table('mentorships_projectlog', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['mentorships.Project'])),
             ('content', self.gf('django.db.models.fields.TextField')(max_length=1000)),
             ('added_by', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('date_added', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
         ))
-        db.send_create_signal('mentorships', ['MentorshipLog'])
+        db.send_create_signal('mentorships', ['ProjectLog'])
 
-        # Adding model 'Skill'
-        db.create_table('mentorships_skill', (
+        # Adding model 'Sponsor'
+        db.create_table('mentorships_sponsor', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['mentorships.Project'])),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
+            ('receive_email_updates', self.gf('django.db.models.fields.BooleanField')(default=True)),
         ))
-        db.send_create_signal('mentorships', ['Skill'])
+        db.send_create_signal('mentorships', ['Sponsor'])
 
 
     def backwards(self, orm):
-        # Deleting model 'MentorshipRequest'
-        db.delete_table('mentorships_mentorshiprequest')
+        # Deleting model 'Project'
+        db.delete_table('mentorships_project')
 
-        # Deleting model 'Mentorship'
-        db.delete_table('mentorships_mentorship')
+        # Removing M2M table for field skills on 'Project'
+        db.delete_table('mentorships_project_skills')
 
-        # Deleting model 'MentorshipLog'
-        db.delete_table('mentorships_mentorshiplog')
+        # Removing M2M table for field members on 'Project'
+        db.delete_table('mentorships_project_members')
 
-        # Deleting model 'Skill'
-        db.delete_table('mentorships_skill')
+        # Deleting model 'JoinRequest'
+        db.delete_table('mentorships_joinrequest')
+
+        # Deleting model 'ProjectLog'
+        db.delete_table('mentorships_projectlog')
+
+        # Deleting model 'Sponsor'
+        db.delete_table('mentorships_sponsor')
 
 
     models = {
+        'accounts.skill': {
+            'Meta': {'object_name': 'Skill'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
         'auth.group': {
             'Meta': {'object_name': 'Group'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -98,35 +128,40 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'mentorships.mentorship': {
-            'Meta': {'object_name': 'Mentorship'},
-            'date_added': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+        'mentorships.joinrequest': {
+            'Meta': {'object_name': 'JoinRequest'},
+            'added_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
+            'closed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'learning': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['mentorships.Skill']"}),
-            'mentor': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'mentor'", 'to': "orm['auth.User']"}),
-            'student': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'student'", 'to': "orm['auth.User']"})
+            'note': ('django.db.models.fields.TextField', [], {'max_length': '1000'}),
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['mentorships.Project']"})
         },
-        'mentorships.mentorshiplog': {
-            'Meta': {'ordering': "('-id',)", 'object_name': 'MentorshipLog'},
+        'mentorships.project': {
+            'Meta': {'ordering': "('-id',)", 'object_name': 'Project'},
+            'added_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
+            'closed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'description': ('django.db.models.fields.TextField', [], {'max_length': '1000'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'looking_for': ('django.db.models.fields.TextField', [], {'max_length': '1000'}),
+            'members': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'members'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['auth.User']"}),
+            'project_type': ('django.db.models.fields.CharField', [], {'default': "'l'", 'max_length': '1'}),
+            'skills': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['accounts.Skill']", 'symmetrical': 'False'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '120'})
+        },
+        'mentorships.projectlog': {
+            'Meta': {'ordering': "('-id',)", 'object_name': 'ProjectLog'},
             'added_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'content': ('django.db.models.fields.TextField', [], {'max_length': '1000'}),
             'date_added': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'mentorship': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['mentorships.Mentorship']"})
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['mentorships.Project']"})
         },
-        'mentorships.mentorshiprequest': {
-            'Meta': {'ordering': "('-id',)", 'object_name': 'MentorshipRequest'},
-            'closed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'from_user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
+        'mentorships.sponsor': {
+            'Meta': {'object_name': 'Sponsor'},
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'learning': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['mentorships.Skill']"}),
-            'so_far': ('django.db.models.fields.TextField', [], {'max_length': '1000'}),
-            'why': ('django.db.models.fields.TextField', [], {'max_length': '1000'})
-        },
-        'mentorships.skill': {
-            'Meta': {'object_name': 'Skill'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['mentorships.Project']"}),
+            'receive_email_updates': ('django.db.models.fields.BooleanField', [], {'default': 'True'})
         }
     }
 

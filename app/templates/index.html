@@ -5,20 +5,16 @@
 <div class="container">
     <div class="row" style="background: url('/static/images/homepage-background.jpg') no-repeat;">
         <div class="nine columns centered">
-            <div align="center" style="padding: 230px 0;"></div>
-            <div class="row" style="margin-bottom: -80px;">
+            <div align="center" style="padding: 180px 0 250px 0 ;"></div>
+            <div class="row" style="margin-bottom: -50px;">
                 <div class="twelve columns">
                     <div class="row">
-                        <div class="six columns">
-                            <div class="roundedbox small">
-                                <h3 style="display: inline-block;">Student</h3>
-                                <a href="{% url signup "student" %}" class="nice radius blue button" style="margin-left: 10px;">Signup »</a>
-                            </div>
-                        </div>
-                        <div class="six columns">
-                            <div class="roundedbox small">
-                                <h3 style="display: inline-block;">Mentor</h3>
-                                <a href="{% url signup "mentor" %}" class="nice radius blue button" style="margin-left: 10px;">Signup »</a>                    
+                        <div class="six columns centered">
+                            <div align="center">
+                                <a
+                                    style="border-radius: 100px; font-size: 24px;" 
+                                    class="nice radius blue button roundedbox signup">Sign Up Today
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -27,29 +23,40 @@
         </div>
     </div>
 </div>
+<div id="signupDialog" class="reveal-modal">
+    <h1>Signup</h1>
+    <form id="signupForm" method="post" action="/">
+        <div id="signupAlert" class="alert-box error" style="display:none;"></div>
+        <p>
+            <label>Email:</label><input id="email" type="email" />
+            <label>Set Password:</label><input id="password" type="password" />
+        </p>
+        <input type="submit" class="nice radius large blue button" value="Submit and get started »"/>
+    </form>
+</div>
 <div style="background: #efefef; padding: 100px 0 50px 0; border-top: 1px solid #cccccc;">
     <div class="container">
         <div class="row">
             <div class="twelve columns">
-                <img src="/static/images/how-it-works.png" style="margin-top: 40px;" />
+                <img src="/static/images/how-it-works.png" />
                 <div class="row" style="margin-top: 50px;">
                     <div class="six columns">
-                        <h2><img src="/static/images/bullet.png" />Becoming a student</h2>
+                        <h2><img src="/static/images/bullet.png" />For students</h2>
                         <p>
                         Connect with a mentor to help you learn faster. Mentors are in 
                         high demand, so share your customized learning goal web page with 
                         friends and family and get bumped up the priority list.
                         </p>
-                        <a href="{% url signup "mentor" %}" class="nice radius blue button">Signup »</a>
+                        <a href="{% url signup %}" class="nice radius blue button signup">Signup »</a>
                     </div>
                     <div class="six columns">
-                        <h2><img src="/static/images/bullet.png" />Becoming a mentor</h2>
+                        <h2><img src="/static/images/bullet.png" />For mentors</h2>
                         <p>
-                            Being a good mentor is almost as hard as finding the right 
-                            people to mentor. The P2PU Mentorship program identifies the 
-                            best candidates looking for a mentor with your expertise.
+                        Post a project you are working on and learners can request
+                        to join. You get help with your project in exchange for
+                        mentoring learners with the skills needed for the project.
                         </p>
-                        <a href="{% url signup "mentor" %}" class="nice radius blue button">Signup »</a>
+                        <a href="{% url signup %}" class="nice radius blue button signup">Signup »</a>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 50px;">
@@ -58,17 +65,21 @@
                         <p>The P2PU Mentorship program is serious about bringing motivated
                         people together to learn and mentor. We've made it super easy 
                         to mentor or be mentored, but we need help to keep it going.
-                        <h3>Beautiful Progress Tracking</h3>
-                        <p>Mentors and students are expected to fill out a regular update 
-                        about what they have done. We'll turn that into a fun timeline 
-                        to share with your supporters and the mentorship community. 
-                        Those who keep up with the program are eligible for 
-                        additional mentorship opportunities!</p>
-                        <h3>Time Committment</h3>
-                        <p>A typical mentorship lasts for about 1-2 months (or more) and 
-                        weekly conversations between the mentor and student. It's up 
-                        to you to pursue the mentorship how you want, but we recommend
-                        you chat regularly and have a weekly phone/skype call.</p>
+                        <div class="row">
+                            <div class="six columns">
+                                <h3>Progress Tracking</h3>
+                                <p>Mentors and students are expected to fill out a regular update 
+                                about what they have done. We'll turn that into a fun timeline 
+                                to share with your supporters and the mentorship community. 
+                                </p>
+                            </div>
+                            <div class="six columns">
+                                <h3>Time Committment</h3>
+                                <p>A typical mentorship lasts for about 1-2 months (or more) and 
+                                weekly conversations between the mentor and student. It's up 
+                                to you to pursue the mentorship how you want.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--
@@ -91,4 +102,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="/static/javascripts/jquery.reveal.js"></script>
+<script type="text/javascript" src="/static/javascripts/signup.js"></script>
 {% endblock %}

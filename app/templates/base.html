@@ -26,7 +26,11 @@
                             {% if not request.user.is_authenticated %}
                             <a class="log" href="{% url login %}">Login</a>
                             {% else %}
-                            <a class="log" href="">Logout</a>
+                            <a href = "{% url project_category %}" class="navitem">Browse</a>
+                            <a href = "{% url project_requests %}" class="navitem">Requests</a>
+                            <a href = "{% url profile_form %}" class="navitem">Profile</a>                            
+                            <a href = "{% url project_form %}" class="navitem">Start new Project</a>
+                            <a class="log" href="{% url logout %}">Logout</a>
                             {% endif %}
                         </div>
                     </div>
@@ -51,7 +55,13 @@
 <!-- Footer section -->
 {% block footer %}
 <div id="footer" align="center">
-    <small>All rights reserved P2PU 2012.</small>
+    <small>   
+        P2PU Mentorship is open source and free. 
+        Contributors welcome on <a href="https://github.com/alexkehayias/mentor">GitHub</a>.        
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">
+            <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" />
+        </a>
+    </small>
 </div>
 {% endblock %}
 {% block google_analytics %}{% google_analytics_tag %}{% endblock %}

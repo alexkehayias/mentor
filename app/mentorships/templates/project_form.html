@@ -1,0 +1,27 @@
+{% extends "form_template.html" %}
+{% block form_title %}Create a Project{% endblock %}
+{% block form %}
+<p>Create a project you are working on or would like to 
+work on. Other members will be able to request to join 
+your project as a mentor or a student.</p>
+<form method="post" action="{% url project_form %}">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="Save" class="nice radius large blue button"></input>
+    <a href="{% url project_category %}" style="margin-left: 10px;">skip</a>
+</form>
+{% endblock %}
+{% block scripts %}
+<link rel="stylesheet" href="/static/stylesheets/select2.css"></script>
+<script type="text/javascript" src="/static/javascripts/select2.js"></script> 
+<script>
+    $(document).ready(function(){ 
+        $("#id_skills").select2({
+            placeholder: "Select a skill"
+        });
+        $("#id_project_type").select2({
+            placeholder: "Select one"
+        });
+    });
+</script>
+{% endblock %}

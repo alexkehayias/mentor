@@ -1,20 +1,26 @@
 {% extends "form_template.html" %}
 {% block form_title %}Get Supporters{% endblock %}
 {% block form %}
-<p>Mentors are limited and in high demand. We need help 
-identifying the most committed students. Each supporter 
-you get will improve your odds of getting picked by a mentor faster!</p>
+<p>Mentors and learners are in high demand. We need help 
+identifying the most committed to learning and mentoring. Each supporter 
+you get will improve your odds of getting mentors and learners to join your project!</p>
 <div class="roundedbox" style="background: #efefef;">
-    <p>I need help getting a {{mentorship_request.learning.name}}
-    mentor on P2PU. Show your support and I will get bumped up the line. 
+    <p>
+    {% if project_type == 'l' %}
+    I need help getting a {{project.project_type.1}}
+    on P2PU. Show your support and I will get bumped up the line. 
     Thanks! 
-    <a href="{{mentorship_request.share_url}}">{{mentorship_request.share_url}}</a>
+    {% else %}
+    I'm looking to mentor people learning {{project.skills.all|join:", "}}.
+    Show your support for my mentorship project, thanks!
+    {% endif %}
+    <a href="{{project.share_url}}">{{project.share_url}}</a>
     </p>
     <b>Share this:</b>
     <div class="fb-send" data-href="http://mentorship.p2pu.org" data-font="arial"></div>
 </div>
 <div style="margin-top: 20px;">
-    <a href="{% url mentorship_request_form 'thanks' %}" class="nice radius large blue button">Finish »</a>
+    <a href="{% url project_category %}" class="nice radius large blue button">Finish »</a>
 </div>
 {% endblock %}
 {% block scripts %}

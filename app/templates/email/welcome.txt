@@ -1,0 +1,10 @@
+Hey there,
+
+Welcome to the P2PU mentorship program. Get started by creating a project to start collaborating with mentors and learners. We'll notify you when someone is interested in joining your project. 
+
+How can I speed up the process?
+Mentors are in high demand. Get supporters by sharing this link: {{mentorship.share_url}}. The more supporters you gain the more likely you are to be chosen by a mentor. In the meantime continue learning. 
+
+Thanks,
+The P2PU Mentorship Team
+

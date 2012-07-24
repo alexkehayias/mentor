@@ -1,69 +1,41 @@
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.contrib.auth import login as auth_login, authenticate
+from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.shortcuts import redirect
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
 
-from accounts.forms import LoginForm, SponsorForm, MentorProfileForm
-from mentorships.models import MentorshipRequest, Skill
-from mentorships.forms import MentorRequestForm
+from accounts.forms import LoginForm, SponsorForm, ProfileForm
+from mentorships.models import Project, JoinRequest
 
-def signup(request, user_type):
-    '''Create an account for the user that logged in with p2pu
-    and create their mentorship request'''
-    # TODO decode the login cookie
-    user, created = User.objects.get_or_create(
-            username = 'johnnytest',
-            first_name = 'Johnny',
-            last_name = 'Test',
-            email = 'email@email.com')
-    user.set_password('testing')
-    user.save()
-    user.send_welcome_email(user_type)
-    authenticated_user = authenticate(username='johnnytest', password='testing')
-    auth_login(request, authenticated_user)
-    # TODO scrape profile pages for initial data until we 
-    # get a user api from p2pu
-    if user_type == 'student':
-        return redirect('mentorship_request_form', 'about-me')
-    return redirect('mentor_profile_form')
-
-@login_required
-def mentorship_request_form(request, step, request_id=None):
-    '''Form for creating a new mentorship request'''
+@csrf_exempt
+def signup(request):
     if request.method == 'POST':
-        if step == 'about-me':
-            form = MentorRequestForm(request.POST)
-            if form.is_valid():
-                skill_id = request.POST['learning']
-                learning = Skill.objects.get(pk=skill_id)
-                mentor_request = form.save(commit=False)
-                mentor_request.from_user = request.user
-                mentor_request.learning = learning
-                mentor_request.save()
-                return redirect('mentorship_request_form', 'supporters', mentor_request.id)
-            else:
-                return direct_to_template(request, 'mentorship_request_form.html', locals())
-    if step == 'about-me':
-        form = MentorRequestForm()
-        skills = Skill.objects.all()
-        return direct_to_template(request, 'mentorship_request_form.html', locals())
-    if step == 'supporters':
-        mentorship_request = MentorshipRequest.objects.get(
-                pk=request_id)
-        return direct_to_template(request, 'get_supporters.html', locals())
-    return direct_to_template(request, 'thanks.html', locals())
+        email = request.POST['email']
+        password = request.POST['password']
+        user, created = User.objects.get_or_create(
+                username = email,
+                email = email)
+        if created:
+            user.set_password(password)
+            user.save()
+            user.send_welcome_email()
+        authenticated_user = authenticate(username=email, password=password)
+        auth_login(request, authenticated_user)
+    return HttpResponse()
 
 @login_required
-def mentor_profile_form(request):
+def profile_form(request):
+    user = request.user
     profile = request.user.p2puprofile
-    form = MentorProfileForm(instance=profile)
+    form = ProfileForm(instance=profile, initial={'first_name':user.first_name, 'last_name':user.last_name})
     if request.method == 'POST':
-        form = MentorProfileForm(request.POST, instance=profile)
+        form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('mentorship_category')
-    return direct_to_template(request, 'mentor_profile_form.html', locals())
+            return redirect('project_form')
+    return direct_to_template(request, 'profile_form.html', locals())
 
 def login(request):
     '''Login form'''
@@ -73,23 +45,50 @@ def login(request):
         if form.is_valid():
             if form.authenticate(request) == True:
                 if request.GET.get('next'):
-                    if request.GET.get('email_share'):
-                        return redirect(request.GET['next']+'?email_share=true')
-                    else:
-                        return redirect(request.GET['next'])                        
-                return redirect('app')
+                    return redirect(request.GET['next'])                        
+                return redirect('project_category')
             else:
                 form.errors['authenticate'] = "Whoops, wrong email and password!"
     return direct_to_template(request, 'login_form.html', locals())
 
-def sponsor(request, request_id):
-    mentorship_request = MentorshipRequest.objects.get(pk=request_id)
+def logout(request):
+    '''Logs out user'''
+    auth_logout(request)
+    return HttpResponseRedirect('/login/')
+
+def sponsor(request, project_id):
+    project = Project.objects.get(pk=project_id)
     form = SponsorForm()
     if request.method == 'POST':
         form = SponsorForm(request.POST)
         if form.is_valid():
             sponsor = form.save(commit=False)
-            sponsor.mentorship_request = mentorship_request
+            sponsor.project = project
             sponsor.save()
+            form = SponsorForm()
             saved = True
     return direct_to_template(request, 'sponsor.html', locals())
+
+@login_required
+@csrf_exempt
+def project_requests(request):
+    '''View the status of project requests from or for the user'''
+    if request.method == 'POST':
+        try:
+            request_id = request.POST['request_id']
+            state = request.POST['state']
+        except KeyError:
+            return HttpResponseBadRequest()
+        project_request = JoinRequest.objects.get(pk=request_id)
+        if state == 'accept':
+            project_request.accept()
+        else:
+            project_request.closed = True
+            project_request.save()
+            print project_request.closed
+        return HttpResponse('done')
+    user = request.user
+    join_requests = JoinRequest.objects
+    user_requests = join_requests.filter(added_by=user)
+    project_requests = join_requests.filter(project__in=user.project_set.all()).exclude(closed=True)
+    return direct_to_template(request, 'requests.html', locals())

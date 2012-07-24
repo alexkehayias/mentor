@@ -1,74 +1,72 @@
 {% extends "base.html" %}
-
+{% load pagination_tags %}
 {% block content_title %}
-Mentorship Requests
+Projects
 {% if skill %} - {{skill.name}}{% endif %}
 {% endblock %}
+
 {% block content %}
 {% block instructions %}
-<p>Select a mentorship request to connect with a student.
-Click "Learn More" to view the <br/>full mentorship application.
+<p>Select a project request to connect with a student.
+Click "Learn More" to view the <br/>full project application.
 Click "Connect" to start mentoring a student!
 </p>
 {% endblock %}
 <div id="connectModal" class="reveal-modal">
-    <h1>Mentor this student</h1>
-    <p>Connect with this student and start mentoring! We'll send
-    and introduction email to both of you to kick it off.</p>
-    <a class="nice radius large blue button accept">Connect</a>
+    <h1>Join this Project</h1>
+    <p>Once you are accepted we will connect you with the 
+    project leader you can start collaborating. </p>
+    <div id="alert" class="alert-box error" style="display: none;"></div>
+    <form>
+        <textarea id="note" placeholder="Add a note about why you would like to join"></textarea>
+    </form>
+    <a class="nice radius large blue button accept">Send Request</a>
     <a class="close-reveal-modal">&#215;</a>
 </div>
 <div class="row">
     <div class="three columns">
         {% block sidebar %}
         <dl class="nice vertical tabs">
-            <dd><a href="{% url mentorship_category %}">Latest</a></dd>            
+            <dd><a href="{% url project_category %}">Latest</a></dd>
+            <dd><a href="{% url project_category %}?my_projects=true">My Projects</a></dd>            
             {% for skill in skills %}
-            <dd><a href="{% url mentorship_category_skill skill.id %}">{{skill.name}}</a></dd>
+            <dd><a href="{% url project_category_skill skill.id %}">{{skill.name}}</a></dd>
             {% endfor %}
         </dl>
         {% endblock %}
     </div>
     <div class="nine columns">
         {% block detail_content %}
-        {% for mentorship in mentorships %}
+        {% autopaginate projects 10 %}
+        {% for project in projects %}
         <div class="snippet">
             <a 
-                class="nice radius small blue button connect" 
-                style="float:right;"
-                data-user-id="{{mentorship.from_user.p2puprofile.p2pu_id}}"
-                data-skill-id="{{mentorship.learning.id}}"
-                data-mentorship-request-id="{{mentorship.id}}">
-                Connect
-            </a>
-            <a 
-                href="{% url mentorship_detail mentorship.id %}" 
+                href="{% url project_detail project.id %}" 
                 class="nice radius small blue button" 
                 style="float: right; margin-right: 10px;">
                 Lean more »
             </a>
-            <h2>
-                {% with mentorship.from_user as user %}
-                <img src="{{user.p2puprofile.picture}}" class="profilepicture"/>                
-                {{user.first_name}}
-                {{user.last_name}}
-                wants to learn 
-                {{mentorship.learning.name}}
+            <p>
+                {% with project.added_by as user %}
+                <img src="{{user.p2puprofile.picture}}" class="profilepicture small"/>                
+                <span>
+                    {{user.first_name}} {{user.last_name}}
+                    is {% if project.project_type == 'l' %}looking for mentors{% else %}mentoring{% endif %}
+                </span>
                 {% endwith %}
-            </h2>
-            <p>{{mentorship.why|truncatewords:"30"}}</p>
-            {% if mentorship.sponsor_set.count > 0 %}
+            </p>
+            <h2>{{project.title}}</h2>
+            <p>{{project.description|truncatewords:"30"}}</p>
+            {% if project.sponsor_set.count > 0 %}
                 <img src="/static/images/supporters.png" style="margin-right: 10px;" />
-                <b>{{mentorship.sponsor_set.count}} supporters</b>
+                <b>{{project.sponsor_set.count}} supporters</b>
             {% endif %}
         </div>
+        {% empty %}
+        <i>No new projects.</i>
         {% endfor %}
+        {% paginate %}
         {% endblock %}
     </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script type="text/javascript" src="/static/javascripts/jquery.reveal.js"></script>
-<script type="text/javascript" src="/static/javascripts/mentorship.js"></script>
 {% endblock %}

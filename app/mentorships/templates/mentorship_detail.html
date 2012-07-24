@@ -1,76 +1,93 @@
 {% extends "mentorship_category.html" %}
-
-{% block content_title %}
-{% with mentorship.from_user as user %}               
-{{user.first_name}}
-{{user.last_name}}
-wants to learn 
-{{mentorship.learning.name}}
-{% endwith %}
+{% load pagination_tags %}
+{% block content_title %} 
+{{project.title}}
 {% endblock %}
-
 {% block instructions %}
-<a style="margin-top: -10px;"href="{% url mentorship_category %}">« Back</a>
+{% if project.closed %}
+<div class="alert-box error">This project is no longer accepting mentors or learners</div>
+{% endif %}
+<a style="position: absolute; top:0;" href="{% url project_category %}">« Back</a>
 {% endblock %}
 
 {% block sidebar %}
 <p><img src="{{user.p2puprofile.picture}}" class="profilepicture large" /></p>
-<h2>Skills</h2>
-{% for skill in user.p2puprofile.skills.all %}
-    <span class="tag">
-        <a href="{% url mentorship_category_skill skill.id %}">{{skill.name}}</a>
-    </span>
-{% endfor %}
-{% if mentorship.sponsor_set.count > 0 %}
-<div style="margin-top: 20px;">
-    <img src="/static/images/supporters.png" style="margin-right: 10px;" />
-    <b>{{mentorship.sponsor_set.count}} supporters</b>
-</div>
-{% endif %}
-{% endblock %}
-
-{% block detail_content %}
-{% if not mentorship.closed %}  
-<div class="alert-box">
-    <span>Get started mentoring this student!</span>
-    <a 
-        class="nice radius blue button connect" 
-        style="margin-left: 10px;" 
-        data-user-id="{{mentorship.from_user.p2puprofile.p2pu_id}}"
-        data-skill-id="{{mentorship.learning.id}}"
-        data-mentorship-request-id="{{mentorship.id}}">
-        Start Mentoring {{mentorship.from_user.first_name}} »
-    </a>
-</div>
-{% endif %}
-
-<h2>Learning</h2>
-<p>
-    <span class="tag">
-        <a href="{% url mentorship_category_skill mentorship.learning.id %}">{{mentorship.learning.name}}</a>
-    </span>
-</p>
-<h2>Why</h2>
-<p>{{mentorship.why}}</p>
-<h2>About Me</h2>
-{% with mentorship.from_user.p2puprofile as profile %}
-<p>{{profile.bio}}</p>
+<h3>About {{project.added_by.first_name}}</h3>
+{% with project.added_by.p2puprofile as profile %}
+<p class="smaller">{{profile.bio}}</p>
 <small>
     <p><b>Location</b>: {{profile.location}}<br/>
     <b>Language</b>: {{profile.language}}
     </p>
 </small>
 {% endwith %}
-<h2>What I've done so far</h2>
-<p>{{mentorship.so_far}}</p>
-{% if not mentorship.closed %}
-<a 
-    class="nice radius blue button connect" 
-    data-user-id="{{mentorship.from_user.p2puprofile.p2pu_id}}"
-    data-skill-id="{{mentorship.learning.id}}"
-    data-mentorship-request-id="{{mentorship.id}}">
-    Start Mentoring {{mentorship.from_user.first_name}} »
-</a>
-{% endif %}
+<h3>Skills</h3>
+{% for skill in user.p2puprofile.skills.all %}
+    <span class="tag">
+        <a href="{% url project_category_skill skill.id %}">{{skill.name}}</a>
+    </span>
+{% endfor %}
+{% endblock %}
 
+{% block detail_content %}
+{% if not project.closed %}  
+<div class="alert-box">
+    {% if project.project_type == 'l' %}
+    <span>Get started mentoring this student!</span>
+    <a 
+        class="nice radius blue button connect" 
+        style="margin-left: 10px;" 
+        data-user-id="{{project.added_by.p2puprofile.p2pu_id}}"
+        data-project-request-id="{{project.id}}">
+        Mentor {{project.added_by.first_name}} » </a>
+    {% else %}
+    <span>Join this project and get mentored!</span>
+    <a 
+        class="nice radius blue button connect" 
+        style="margin-left: 10px;" 
+        data-user-id="{{project.added_by.p2puprofile.p2pu_id}}"
+        data-project-request-id="{{project.id}}">
+        Join this project » </a>
+    {% endif %}
+</div>
+{% endif %}
+{% if project.sponsor_set.count > 0 %}
+<p>
+    <img src="/static/images/supporters.png" style="margin-right: 10px;" />
+    <b>{{project.sponsor_set.count}} supporters</b>
+</p>
+{% endif %}
+<h2>About the Project</h2>
+<p><b>Looking for: </b>{% if project.project_type == 'l' %} Mentors{% else %}Learners{% endif %}</p>
+<p>{{project.description}}</p>
+<h2>Skills Being Used</h2>
+<p>
+{% for skill in project.skills.all %}
+    <span class="tag">
+        <a href="{% url project_category_skill skill.id %}">{{skill.name}}</a>
+    </span>
+{% empty %}
+<i>No skills listed</i>
+{% endfor %}
+</p>
+<h2>You should join if...</h2>
+<p>{{project.looking_for}}</p>
+{% if not project.closed %}  
+    {% if project.project_type == 'l' %}
+    <a class="nice radius blue button connect">
+        Mentor {{project.added_by.first_name}} » 
+    </a>
+    {% else %}
+    <a class="nice radius blue button connect">
+        Join this project » 
+    </a>
+    {% endif %}
+{% endif %}
+<br/><br/>
+{% include "project_log.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="/static/javascripts/jquery.reveal.js"></script>
+<script type="text/javascript" src="/static/javascripts/project.js"></script>
 {% endblock %}
