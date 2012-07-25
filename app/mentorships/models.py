@@ -28,7 +28,7 @@ class Project(models.Model):
     
     @property
     def share_url(self):
-        url = settings.SERVER_SCHEME_AND_NETLOC + '/projects/' + str(self.id) + 'supporters'
+        url = settings.SERVER_SCHEME_AND_NETLOC + '/projects/' + str(self.id) + '/supporters'
         return shorten_url(url)
 
 class JoinRequest(models.Model):
