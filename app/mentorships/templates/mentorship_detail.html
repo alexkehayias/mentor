@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block sidebar %}
-<p><img src="{{user.p2puprofile.picture}}" class="profilepicture large" /></p>
+<p><img src="{{project.added_by.p2puprofile.picture}}" class="profilepicture large" /></p>
 <h3>About {{project.added_by.first_name}}</h3>
 {% with project.added_by.p2puprofile as profile %}
 <p class="smaller">{{profile.bio}}</p>
