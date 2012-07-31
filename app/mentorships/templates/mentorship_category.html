@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load pagination_tags %}
+{% load url_tags %}
 {% block content_title %}
 Projects
 {% if skill %} - {{skill.name}}{% endif %}
@@ -38,7 +39,7 @@ Click "Connect" to start mentoring a student!
             <select id="skillSelect" style="width: 250px;">
                 <option></option>
                 {% for skill in skills %}
-                <option><a href="{% url project_category_skill skill.id %}">{{skill.name}}</a></option>
+                <option value="{{skill.id}}">{{skill.name}}</option>
                 {% endfor %}
             </select>
         </p>
@@ -83,6 +84,10 @@ Click "Connect" to start mentoring a student!
     $(document).ready(function(){ 
         $("#skillSelect").select2({
             placeholder: "Select a skill"
+        });
+        $("select").on("change", function(e){
+            console.log(e);
+            window.location =  "{% server_scheme_and_netloc %}" + "/projects/" + "skill/" + e.currentTarget.value;
         });
     });
 </script>
