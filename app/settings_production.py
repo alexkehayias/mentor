@@ -5,7 +5,7 @@ with open('/home/dotcloud/environment.json') as f:
     env = json.load(f)
 
 if env['DOTCLOUD_PROJECT'] == 'mentor':
-    SERVER_SCHEME_AND_NETLOC = 'http://mentor-qu6we2kn.dotcloud.com'
+    SERVER_SCHEME_AND_NETLOC = 'http://mentorship.p2pu.org'
     SERVER_TYPE = 'production'
 else:
     SERVER_SCHEME_AND_NETLOC = 'http://mentordev-qu6we2kn.dotcloud.com'
