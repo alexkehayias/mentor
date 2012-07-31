@@ -34,6 +34,7 @@ Click "Connect" to start mentoring a student!
         {% endblock %}
     </div>
     <div class="nine columns">
+        {% block detail_content %}
         <p>
             <b>Filter By Skill</b>:
             <select id="skillSelect" style="width: 250px;">
@@ -43,7 +44,6 @@ Click "Connect" to start mentoring a student!
                 {% endfor %}
             </select>
         </p>
-        {% block detail_content %}
         {% autopaginate projects 10 %}
         {% for project in projects %}
         <div class="snippet">
