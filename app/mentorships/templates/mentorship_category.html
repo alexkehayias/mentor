@@ -55,6 +55,14 @@ Click "Connect" to start mentoring a student!
                 style="float: right; margin-right: 10px;">
                 Lean more »
             </a>
+            {% if project.added_by == request.user %}
+            <a
+                href="{% url project_edit project.id %}"
+                class="nice radius small blue button"
+                style="float:right; margin-right: 10px">
+                Edit » 
+            </a>
+            {% endif %}
             <p>
                 {% with project.added_by as user %}
                 <img src="{{user.p2puprofile.picture}}" class="profilepicture small"/>                
