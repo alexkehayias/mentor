@@ -30,6 +30,8 @@ Click "Connect" to start mentoring a student!
         <dl class="nice vertical tabs">
             <dd><a href="{% url project_category %}">Latest</a></dd>
             <dd><a href="{% url project_category %}?my_projects=true">My Projects</a></dd>
+            <dd><a href="{% url project_category %}?mentor=true">Mentoring</a></dd>
+            <dd><a href="{% url project_category %}?learner=true">Learning</a></dd>
         </dl>
         {% endblock %}
     </div>

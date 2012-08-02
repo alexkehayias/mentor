@@ -47,9 +47,16 @@ def projects(request, project_id=None, skill_id=None):
     projects = Project.objects.filter(
             closed=False).select_related(
                     'sponsor_set', 'added_by')
-    if request.GET.get('my_projects'):
-        skill = {'name':'My Projects'}
+    params = request.GET
+    if params.get('my_projects'):
+        skill = {'name': 'My Projects'}
         projects = projects.filter(added_by=request.user)
+    if params.get('mentor'):
+        skill = {'name': 'Mentoring'}
+        projects = projects.filter(project_type='m')
+    if params.get('learner'):
+        skill = {'name': 'Learning'}
+        projects = projects.filter(project_type='l')
     if bool(skill_id):
         skill = Skill.objects.get(pk=skill_id)
         projects = projects.filter(skills=skill)
