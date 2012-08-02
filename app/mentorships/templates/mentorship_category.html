@@ -74,6 +74,13 @@ Click "Connect" to start mentoring a student!
             </p>
             <h2>{{project.title}}</h2>
             <p>{{project.description|truncatewords:"30"}}</p>
+            <b>Skills:</b>
+            <p>
+            {% for skill in project.skills.all %}
+                <span class="tag">
+                    <a href="{% url project_category_skill skill.id %}">{{skill.name}}</a>
+                </span>
+            {% endfor %}
             {% if project.sponsor_set.count > 0 %}
                 <img src="/static/images/supporters.png" style="margin-right: 10px;" />
                 <b>{{project.sponsor_set.count}} supporters</b>
