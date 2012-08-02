@@ -6,9 +6,9 @@ identifying the most committed to learning and mentoring. Each supporter
 you get will improve your odds of getting mentors and learners to join your project!</p>
 <div class="roundedbox" style="background: #efefef;">
     <p>
-    {% if project_type == 'l' %}
-    I need help getting a {{project.project_type.1}}
-    on P2PU. Show your support and I will get bumped up the line. 
+    {% if project.project_type == 'l' %}
+    I need help getting a mentor on P2PU. Show your support and 
+    I will get bumped up the line. 
     Thanks! 
     {% else %}
     I'm looking to mentor people learning {{project.skills.all|join:", "}}.
@@ -17,7 +17,7 @@ you get will improve your odds of getting mentors and learners to join your proj
     <a href="{{project.share_url}}">{{project.share_url}}</a>
     </p>
     <b>Share this:</b>
-    <div class="fb-send" data-href="http://mentorship.p2pu.org" data-font="arial"></div>
+    <div class="fb-send" data-href="{{project.share_url}}" data-font="arial"></div>
 </div>
 <div style="margin-top: 20px;">
     <a href="{% url project_category %}" class="nice radius large blue button">Finish »</a>
