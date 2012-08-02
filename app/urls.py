@@ -5,7 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', direct_to_template, {'template': 'index.html'}, name='home'),
+    url(r'^$', 'accounts.views.homepage', name='home'),
     url(r'^signup/$', 'accounts.views.signup', name='signup'),
     url(r'^login/$', 'accounts.views.login', name='login'),   
     url(r'^logout/$', 'accounts.views.logout', name='logout'),   

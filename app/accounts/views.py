@@ -9,6 +9,12 @@ from django.views.decorators.csrf import csrf_exempt
 from accounts.forms import LoginForm, SponsorForm, ProfileForm
 from mentorships.models import Project, JoinRequest
 
+def homepage(request):
+    if request.user.is_authenticated():
+        return redirect('project_category')
+    else:
+        return direct_to_template(request, 'index.html', locals())
+
 @csrf_exempt
 def signup(request):
     if request.method == 'POST':
