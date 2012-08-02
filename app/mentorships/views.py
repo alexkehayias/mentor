@@ -13,16 +13,26 @@ from accounts.models import Skill
 from mentorships.forms import ProjectForm, ProjectLogForm
 
 @login_required
-def project_form(request):
-    form = ProjectForm()
+def project_form(request, project_id=None):
+    if bool(project_id):
+        project = get_object_or_404(Project, pk=project_id)
+        if not project.added_by == request.user:
+            return redirect('login')
+        edit = True
+    else:
+        project = None
+        edit = False
+    form = ProjectForm(instance=project)
     if request.method == 'POST':
-        form = ProjectForm(request.POST)
+        form = ProjectForm(request.POST, instance=project)
         if form.is_valid():
             project = form.save(commit=False)
             project.added_by = request.user
             project.save()
             form.save_m2m()
-            return redirect('project_support', project.id)
+            saved = True
+            if not edit:
+                return redirect('project_support', project.id)
     return direct_to_template(request, 'project_form.html', locals())
 
 @login_required

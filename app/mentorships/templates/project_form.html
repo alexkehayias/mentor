@@ -1,10 +1,18 @@
 {% extends "form_template.html" %}
-{% block form_title %}Create a Project{% endblock %}
+{% block form_title %}
+{% if edit %}
+Edit Project
+{% else %}Create a Project
+{% endif %}
+{% endblock %}
 {% block form %}
 <p>Create a project you are working on or would like to 
 work on. Other members will be able to request to join 
 your project as a mentor or a student.</p>
-<form method="post" action="{% url project_form %}">
+{% if saved %}
+<div class="alert-box success">Saved!</div>
+{% endif %}
+<form method="post" action="{% if edit %}{% url project_edit project.id %}{% else %}{% url project_form %}{% endif %}">
     {% csrf_token %}
     {{form}}
     <input type="submit" value="Save" class="nice radius large blue button"></input>

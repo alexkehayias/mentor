@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^projects/skill/(?P<skill_id>[0-9]+)/$', 'mentorships.views.projects', name='project_category_skill'),       
     url(r'^projects/(?P<project_id>[0-9]+)/supporters/$', 'accounts.views.sponsor', name='sponsor'),   
     url(r'^projects/(?P<project_id>[0-9]+)/support/$', 'mentorships.views.support', name='project_support'),   
+    url(r'^projects/(?P<project_id>[0-9]+)/edit/$', 'mentorships.views.project_form', name='project_edit'),
     url(r'^projects/(?P<project_id>[0-9]+)/$', 'mentorships.views.projects', name='project_detail'),   
     url(r'^projects/(?P<project_id>[0-9]+)/log/$', 'mentorships.views.project_log', name='project_log'),   
     
