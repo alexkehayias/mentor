@@ -101,10 +101,6 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
-AUTHENTICATION_BACKENDS = (
-    'lib.email_auth_backend.EmailAuthBackend',
-)
-
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -113,7 +109,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'linaro_django_pagination.middleware.PaginationMiddleware',    
+    'linaro_django_pagination.middleware.PaginationMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -139,8 +135,12 @@ INSTALLED_APPS = (
     'lib',
     'accounts',
     'mentorships',
-    
+
 )
+
+# P2PU API Information
+P2PU_USER_API_URL = 'https://p2pu.org/api/alpha/users/'
+P2PU_NOTIFICATION_API_URL = 'https://p2pu.org/en/notifications/notification/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

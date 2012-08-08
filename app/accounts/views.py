@@ -5,6 +5,9 @@ from django.contrib.auth import login as auth_login, authenticate, logout as aut
 from django.shortcuts import redirect
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+
+import requests
 
 from accounts.forms import LoginForm, SponsorForm, ProfileForm
 from mentorships.models import Project, JoinRequest
@@ -18,16 +21,26 @@ def homepage(request):
 @csrf_exempt
 def signup(request):
     if request.method == 'POST':
-        email = request.POST['email']
+        username = request.POST['p2pu_id']
         password = request.POST['password']
+        # Check if the p2pu user exists
+        check_user = requests.get(
+            settings.P2PU_USER_API_URL + username + "?format=json")
+        if not check_user.ok:
+            return HttpResponseBadRequest(
+                "Couln't find that username. Please try again")
         user, created = User.objects.get_or_create(
-                username = email,
-                email = email)
+                username = username)
         if created:
             user.set_password(password)
             user.save()
+            # TODO call the P2PU API to prepopulate user info
+            user.p2puprofile.p2pu_id = username
+            user.p2puprofile.save()
             user.send_welcome_email()
-        authenticated_user = authenticate(username=email, password=password)
+        authenticated_user = authenticate(
+            username=username,
+            password=password)
         auth_login(request, authenticated_user)
     return HttpResponse()
 
@@ -45,13 +58,14 @@ def profile_form(request):
 
 def login(request):
     '''Login form'''
+    # TODO use p2pu username for login
     form = LoginForm()
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
             if form.authenticate(request) == True:
                 if request.GET.get('next'):
-                    return redirect(request.GET['next'])                        
+                    return redirect(request.GET['next'])
                 return redirect('project_category')
             else:
                 form.errors['authenticate'] = "Whoops, wrong email and password!"

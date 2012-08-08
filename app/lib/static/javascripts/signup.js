@@ -6,26 +6,37 @@
       return $("#signupDialog").reveal();
     });
     return $("#signupForm").on("submit", function(e) {
-      var alert_box, email, password;
+      var alert_box, p2pu_id, password,
+        _this = this;
       e.preventDefault();
-      email = $("#email").val();
+      p2pu_id = $("#p2pu_id").val();
       password = $("#password").val();
       alert_box = $("#signupAlert");
-      if (!email) {
-        alert_box.html("You must enter your email");
+      if (!p2pu_id) {
+        alert_box.html("You must enter your username");
         alert_box.show();
         return;
       }
       if (password.length <= 6) {
-        alert_box.html("You must enter a password longer than 6 char");
+        alert_box.html("You must enter your password");
         alert_box.show();
         return;
       }
-      return $.post('/signup/', {
-        email: email,
-        password: password
-      }, function(response) {
-        return window.location = "/profile/edit/";
+      return $.ajax({
+        url: '/signup/',
+        data: {
+          p2pu_id: p2pu_id,
+          password: password
+        },
+        type: "POST",
+        dataType: "json",
+        success: function(response) {
+          return window.location = "/profile/edit/";
+        },
+        error: function(e) {
+          alert_box.html(e.responseText);
+          return alert_box.show();
+        }
       });
     });
   });
