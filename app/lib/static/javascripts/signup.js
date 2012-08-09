@@ -6,20 +6,24 @@
       return $("#signupDialog").reveal();
     });
     return $("#signupForm").on("submit", function(e) {
-      var alert_box, p2pu_id, password,
+      var alert_box, loading, p2pu_id, password,
         _this = this;
       e.preventDefault();
+      loading = $("#loading");
+      loading.show();
       p2pu_id = $("#p2pu_id").val();
       password = $("#password").val();
       alert_box = $("#signupAlert");
       if (!p2pu_id) {
         alert_box.html("You must enter your username");
         alert_box.show();
+        loading.hide();
         return;
       }
       if (password.length <= 6) {
         alert_box.html("You must enter your password");
         alert_box.show();
+        loading.hide();
         return;
       }
       return $.ajax({
@@ -35,7 +39,8 @@
         },
         error: function(e) {
           alert_box.html(e.responseText);
-          return alert_box.show();
+          alert_box.show();
+          return loading.hide();
         }
       });
     });

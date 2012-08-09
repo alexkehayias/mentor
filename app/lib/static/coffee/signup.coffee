@@ -4,16 +4,20 @@ $ ->
         $("#signupDialog").reveal()
     $("#signupForm").on "submit", (e) ->
         e.preventDefault()
+        loading = $ "#loading"
+        loading.show()
         p2pu_id = $("#p2pu_id").val()
         password = $("#password").val()
         alert_box = $ "#signupAlert"
         if not p2pu_id
             alert_box.html "You must enter your username"
-            alert_box.show()            
+            alert_box.show()
+            loading.hide()
             return
         if password.length <= 6
             alert_box.html "You must enter your password"
             alert_box.show()
+            loading.hide()
             return
         $.ajax
             url: '/signup/'
@@ -27,3 +31,4 @@ $ ->
             error: (e) =>
                 alert_box.html e.responseText
                 alert_box.show()
+                loading.hide()
