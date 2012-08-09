@@ -43,11 +43,12 @@ def projects(request, project_id=None, skill_id=None):
         note = request.POST['note']
         user = request.user
         project = Project.objects.get(pk=project_id)
-        join = JoinRequest.objects.get_or_create(
+        join, created = JoinRequest.objects.get_or_create(
                 project = project,
                 added_by = user,
                 note = note)
-        join.send_notification()
+        if created:
+            join.send_notification()
         resp = {'message': 'created'}
         return HttpResponse(json.dumps(resp), mimetype='json')
     if bool(project_id):
@@ -80,7 +81,7 @@ def support(request, project_id):
 
 @login_required
 def project_log(request, project_id):
-    '''Once a mentorship is established, periodic updates 
+    '''Once a mentorship is established, periodic updates
     track the progress of the mentor -> student relationship'''
     mentorship = Project.objects.get(pk=project_id)
     # TODO handle callback from notifications API

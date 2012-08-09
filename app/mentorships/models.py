@@ -1,10 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.template.loader import render_to_string
 
 from lib.utils import shorten_url
 from accounts.models import Skill
-
 
 class Project(models.Model):
     PROJECT_TYPE_CHOICES = (
@@ -25,7 +25,7 @@ class Project(models.Model):
 
     def __unicode__(self):
         return self.title
-    
+
     @property
     def share_url(self):
         url = settings.SERVER_SCHEME_AND_NETLOC + '/projects/' + str(self.id) + '/supporters'
@@ -42,10 +42,9 @@ class JoinRequest(models.Model):
 
     def send_notification(self):
         '''Send a notification to the user'''
-        message = self.note
-        from_user = self.added_by.p2puprofile.p2pu_id
-        # TODO send the notification alert via api
-        return True
+        subject = "%s is interested in your mentorship project" % self.added_by.first_name
+        message = render_to_string('email/project_request.html', {'join_request': self})
+        self.project.added_by.send_email(subject, message)
 
     def accept(self):
         '''Add the requestor to the project member team
@@ -70,7 +69,7 @@ class ProjectLog(models.Model):
     content = models.TextField(max_length=1000)
     added_by = models.ForeignKey(User)
     date_added = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         ordering = ('-id',)
 
@@ -84,5 +83,3 @@ class Sponsor(models.Model):
 
     def __unicode__(self):
         return self.mentorship_request.from_user.first_name
-
-
