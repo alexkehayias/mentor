@@ -1,0 +1,8 @@
+{% load url_tags %}
+Congrats, you've been accepted into "{{project.title}}." Please arrange some time to talk with the project leader to get started. Here's their info:
+
+{{project.added_by.first_name}} {{project.added_by.last_name}}
+Email: {{project.added_by.email}}
+
+
+- The P2PU Mentorship Team

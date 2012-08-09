@@ -1,0 +1,11 @@
+{% load url_tags %}
+Hey {{join_request.project.added_by.first_name}},
+
+{{join_request.added_by.first_name}} {{join_request.added_by.last_name}} is interested in joining your project "{{join_request.project.title}}."
+
+"{{join_request.note}}"
+
+Go to {% server_scheme_and_netloc %}{% url project_requests %} to accept or reject this request. If you accept, we'll send an intro email and add them as a member of your project.
+
+Thanks,
+The P2PU Team

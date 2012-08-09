@@ -54,6 +54,9 @@ class JoinRequest(models.Model):
         project = self.project
         project.members.add(self.added_by)
         project.save()
+        subject = "You have been accepted into %s's project" % self.project.added_by.first_name
+        message = render_to_string('email/project_request_accept.html', {'project': self.project})
+        self.added_by.send_email(subject, message)
 
     @property
     def status(self):
