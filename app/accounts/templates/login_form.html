@@ -10,13 +10,11 @@
             {% if form.errors.authenticate %}<div class="alert-box error">{{ form.errors.authenticate }}</div>{% endif %}
         
             {% csrf_token %}
-            <label>{{ form.email.label }}:</label>
-            {% if form.email.errors %}<div class="alert-box error">{{ form.email.errors }}</div>{% endif %}
-            
-            {{ form.email }}
+            <label>{{ form.username.label }}:</label>
+            {% if form.username.errors %}<div class="alert-box error">{{ form.username.errors }}</div>{% endif %}
+            {{ form.username }}
             <label>{{ form.password.label }}:</label>
             {% if form.password.errors %}<div class="alert-box error">{{ form.password.errors }}</div>{% endif %}
-            
             {{ form.password }}
             <input type="submit" class="nice large radius blue button" value="Login" style="margin-right: 20px;" />
         </form>

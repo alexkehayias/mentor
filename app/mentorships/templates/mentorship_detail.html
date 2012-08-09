@@ -22,7 +22,7 @@
 </small>
 {% endwith %}
 <h3>Skills</h3>
-{% for skill in user.p2puprofile.skills.all %}
+{% for skill in project.added_by.p2puprofile.skills.all %}
     <span class="tag">
         <a href="{% url project_category_skill skill.id %}">{{skill.name}}</a>
     </span>

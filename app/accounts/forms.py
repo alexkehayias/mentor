@@ -5,11 +5,11 @@ from accounts.models import P2PUProfile
 from mentorships.models import Sponsor
 
 class LoginForm(forms.Form):
-    email = forms.CharField(max_length=100)
+    username = forms.CharField(max_length=100)
     password = forms.CharField(max_length=100, widget=forms.PasswordInput())
 
     def authenticate(self, request):
-        username = request.POST['email']
+        username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
