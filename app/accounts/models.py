@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
+from django.conf import settings
 
 import requests as request
 import simplejson as json
@@ -17,17 +18,20 @@ class P2PUProfile(models.Model):
     def __unicode__(self):
         return self.user.first_name
 
-    def update_profile(self, data):
+    def update_profile(self):
         '''Update the users profile with data from the p2pu User API'''
-        self.bio = data.get('bio') or None
-        self.location = data.get('location') or None
-        for skill in data.get('skills'):
-            s, created = Skill.objects.get_or_create(name=skill)
-            if s not in self.skills.all():
-                self.skills.add(s)
-        self.language = data.get('language') or None
-        self.picture = data.get('gravatar') or None
-        self.save()
+        user_data = request.get(settings.P2PU_USER_API_URL + self.user.username + "?format=json")
+        if user_data.ok:
+            data = json.loads(user_data.content)
+            self.bio = data.get('bio') or None
+            self.location = data.get('location') or None
+            for skill in data.get('skills'):
+                s, created = Skill.objects.get_or_create(name=skill)
+                if s not in self.skills.all():
+                    self.skills.add(s)
+            self.language = data.get('language') or None
+            self.picture = data.get('gravatar') or None
+            self.save()
 
 class Skill(models.Model):
     name = models.CharField(max_length=100)
@@ -53,7 +57,7 @@ def send_email(self, subject, message):
     else:
         print "No P2PU ID found. Aborting notification."
         return
-    api_url = settings.P2PU_NOTIFICATIONS_API_URL
+    api_url = settings.P2PU_NOTIFICATION_API_URL
     api_key = settings.P2PU_NOTIFICATION_API_KEY
     call_data = {
         'api-key': api_key,
@@ -62,7 +66,7 @@ def send_email(self, subject, message):
         'text': message}
     # TODO only turn this on for production
     response = request.post(api_url, data=json.dumps(call_data), verify=False)
-    print response.content()
+    print response.content
 User.send_email = send_email
 
 def send_welcome_email(self):

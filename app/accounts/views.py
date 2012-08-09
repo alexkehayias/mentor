@@ -24,19 +24,21 @@ def signup(request):
         username = request.POST['p2pu_id']
         password = request.POST['password']
         # Check if the p2pu user exists
-        check_user = requests.get(
+        user_data = requests.get(
             settings.P2PU_USER_API_URL + username + "?format=json")
-        if not check_user.ok:
+        if not user_data.ok:
             return HttpResponseBadRequest(
                 "Couln't find that username. Please try again")
         user, created = User.objects.get_or_create(
                 username = username)
+        # TODO clean this up, avoid saving to db twice
         if created:
             user.set_password(password)
             user.save()
             # TODO call the P2PU API to prepopulate user info
             user.p2puprofile.p2pu_id = username
             user.p2puprofile.save()
+            user.p2puprofile.update_profile()
             user.send_welcome_email()
         authenticated_user = authenticate(
             username=username,

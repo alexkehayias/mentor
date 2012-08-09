@@ -140,7 +140,6 @@ INSTALLED_APPS = (
 
 # P2PU API Information
 P2PU_USER_API_URL = 'https://p2pu.org/api/alpha/users/'
-P2PU_NOTIFICATION_API_URL = 'https://p2pu.org/en/notifications/notification/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
