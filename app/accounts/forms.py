@@ -35,9 +35,11 @@ class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
         self.fields['skills'].help_text = "Start typing the name of a skill then press tab to add it to the list."
+        self.fields['email'].required = True
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
 
+    email = forms.EmailField()
     first_name = forms.CharField()
     last_name = forms.CharField()
 
@@ -50,7 +52,5 @@ class ProfileForm(forms.ModelForm):
         user = profile.user
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
+        user.email = self.cleaned_data['email']
         user.save()
-        
-
-
