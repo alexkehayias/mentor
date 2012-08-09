@@ -17,6 +17,18 @@ class P2PUProfile(models.Model):
     def __unicode__(self):
         return self.user.first_name
 
+    def update_profile(self, data):
+        '''Update the users profile with data from the p2pu User API'''
+        self.bio = data.get('bio') or None
+        self.location = data.get('location') or None
+        for skill in data.get('skills'):
+            s, created = Skill.objects.get_or_create(name=skill)
+            if s not in self.skills.all():
+                self.skills.add(s)
+        self.language = data.get('language') or None
+        self.picture = data.get('gravatar') or None
+        self.save()
+
 class Skill(models.Model):
     name = models.CharField(max_length=100)
 
