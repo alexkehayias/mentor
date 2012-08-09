@@ -30,7 +30,7 @@ class P2PUProfile(models.Model):
                 if s not in self.skills.all():
                     self.skills.add(s)
             self.language = data.get('language') or None
-            self.picture = data.get('gravatar') or None
+            self.picture = data.get('gravatar') or '/static/images/user.png'
             self.save()
 
 class Skill(models.Model):
