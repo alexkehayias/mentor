@@ -14,7 +14,7 @@
 <p><img src="{{project.added_by.p2puprofile.picture}}" class="profilepicture large" /></p>
 <h3>About {{project.added_by.first_name}}</h3>
 {% with project.added_by.p2puprofile as profile %}
-<p class="smaller">{{profile.bio}}</p>
+<p class="smaller">{{profile.bio|striptags}}</p>
 <small>
     <p><b>Location</b>: {{profile.location}}<br/>
     <b>Language</b>: {{profile.language}}
