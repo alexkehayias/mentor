@@ -1,13 +1,13 @@
 {% extends "project_form.html" %}
 {% load pagination_tags %}
-{% block form_title %}What's New?{% endblock %}
+{% block form_title %}Update Progress{% endblock %}
 {% block form %}
 {% if saved %}
     <div class="alert-box success">Saved!</div>
     <div class="alert-box success">+ Your mentorship rating went up, woohoo!</div>
 {% endif %}
 <form method="post" action="{% url project_log mentorship.id %}">
-    <label>What have you done towards {{role}} {{mentorship.learning.name}}?
+    <label>What have you done towards the project "{{mentorship.title}}"?
     {% csrf_token %}
     {{form}}
     <input type="submit" class="nice radius blue button" value="Save" />
