@@ -66,7 +66,6 @@ def send_email(self, subject, message):
         'text': message}
     # TODO only turn this on for production
     response = request.post(api_url, data=json.dumps(call_data), verify=False)
-    print response.content
 User.send_email = send_email
 
 def send_welcome_email(self):
@@ -74,5 +73,3 @@ def send_welcome_email(self):
     message = render_to_string('email/welcome.txt', locals())
     self.send_email(subject, message)
 User.send_welcome_email = send_welcome_email
-
-# TODO send project request email

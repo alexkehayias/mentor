@@ -1,0 +1,13 @@
+{% load url_tags %}
+
+Hey {{user.first_name}},
+
+Please update your progress on the mentorship projects you are participating in. This helps improve your mentorship rating.
+
+Projects:
+{% for project in projects %}
+{{project.title}}: {% server_scheme_and_netloc %}{% url project_log project.id %}
+{% endfor %}
+
+
+- The P2PU Mentorship Team
